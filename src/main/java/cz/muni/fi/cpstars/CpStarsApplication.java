@@ -1,5 +1,6 @@
 package cz.muni.fi.cpstars;
 
+import cz.muni.fi.cpstars.dal.temporaryData.TemporaryStarBasicInfo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,7 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CpStarsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CpStarsApplication.class, args);
+		TemporaryStarBasicInfo.loadData();
+		SpringApplication.run(CpStarsApplication.class, args
+		);
 	}
 
 }

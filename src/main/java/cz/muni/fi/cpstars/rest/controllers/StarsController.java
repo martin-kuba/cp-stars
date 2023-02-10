@@ -1,14 +1,16 @@
 package cz.muni.fi.cpstars.rest.controllers;
 
+import cz.muni.fi.cpstars.bl.implementation.StarsBlManagerImpl;
+import cz.muni.fi.cpstars.bl.interfaces.StarsBlManager;
 import cz.muni.fi.cpstars.dal.classes.StarBasicInfo;
-import cz.muni.fi.cpstars.dal.temporaryData.TemporaryStarBasicInfo;
+import cz.muni.fi.cpstars.dal.entities.Star;
+import cz.muni.fi.cpstars.dal.implementation.CsvDataLoaderImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -20,6 +22,16 @@ import java.util.List;
 @RestController
 public class StarsController {
 
+    private final CsvDataLoaderImpl csvDataLoaderImpl;
+
+    private final StarsBlManager starsBlManager;
+
+    @Autowired
+    public StarsController(CsvDataLoaderImpl csvDataLoaderImpl, StarsBlManagerImpl starsBlManagerImpl) {
+        this.csvDataLoaderImpl = csvDataLoaderImpl;
+        this.starsBlManager = starsBlManagerImpl;
+    }
+
     /**
      * Return basic information about all CP stars.
      *
@@ -27,15 +39,19 @@ public class StarsController {
      */
     @GetMapping
     public List<StarBasicInfo> getBasicInfoStarsList() {
+//        reload();
         // TODO: Fetch data from database
-        return TemporaryStarBasicInfo.loadedData;
+//        return TemporaryStarBasicInfo.loadedData;
+        return starsBlManager.getAllStarsBasicInfo();
     }
 
     // TODO: Change return type
     @GetMapping("/{id}")
-    public StarBasicInfo getStarDetails(@PathVariable int id) {
-        List<StarBasicInfo> found = TemporaryStarBasicInfo.loadedData.stream().filter((star) -> star.Id == id).toList();
+    public Star getStarDetails(@PathVariable long id) {
+        return starsBlManager.getStar(id);
+    }
 
-        return found.size() > 0 ? found.get(0) : new StarBasicInfo();
+    private void reload() {
+        this.csvDataLoaderImpl.reloadHRDiagramValues();
     }
 }

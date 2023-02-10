@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 
@@ -24,7 +26,7 @@ public class AstroSearcherConnectorImpl implements AstroSearcherConnector {
 
     @Override
     public List<String> getAliases(String baseIdentifier) {
-        String paramString = "id=" + baseIdentifier;
+        String paramString = "id=" + URLEncoder.encode(baseIdentifier, StandardCharsets.UTF_8);
         return ((Aliases) connectionUtils.sendRequestGetData(Constants.ASTROSEARCHER_IDENTIFIERS_JSON_URL, paramString, RequestMethod.GET.toString(), Aliases.class)).getAliases();
     }
 }

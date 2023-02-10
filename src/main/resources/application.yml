@@ -14,3 +14,7 @@ spring:
   sql:
     init:
       platform: postgres
+
+springdoc:
+  api-docs:
+    path: /api/docs

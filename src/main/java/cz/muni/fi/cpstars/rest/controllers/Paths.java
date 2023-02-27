@@ -12,6 +12,5 @@ public abstract class Paths {
     // EXTERNAL SERVICES
     public static final String EXTERNAL_SERVICES = "/external";
     public static final String IDENTIFIERS = "/identifiers";
-
-
+    public static final String ASTROSEARCHER_DATA = "/astrosearcher";
 }

@@ -1,6 +1,7 @@
 package cz.muni.fi.cpstars.bl.implementation;
 
 
+import astrosearcher.classes.ResponseData;
 import cz.muni.fi.cpstars.bl.Constants;
 import cz.muni.fi.cpstars.bl.classes.astrosearcher.Aliases;
 import cz.muni.fi.cpstars.bl.interfaces.AstroSearcherConnector;
@@ -29,4 +30,11 @@ public class AstroSearcherConnectorImpl implements AstroSearcherConnector {
         String paramString = "id=" + URLEncoder.encode(baseIdentifier, StandardCharsets.UTF_8);
         return ((Aliases) connectionUtils.sendRequestGetData(Constants.ASTROSEARCHER_IDENTIFIERS_JSON_URL, paramString, RequestMethod.GET.toString(), Aliases.class)).getAliases();
     }
+
+    @Override
+    public ResponseData getData(String baseIdentifier) {
+        String paramString = "id=" + URLEncoder.encode(baseIdentifier, StandardCharsets.UTF_8);
+        return (ResponseData) connectionUtils.sendRequestGetData(Constants.ASTROSEARCHER_RESULTS_JSON_URL, paramString, RequestMethod.GET.toString(), ResponseData.class);
+    }
+
 }

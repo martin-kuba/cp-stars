@@ -1,0 +1,6 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Sun Feb 26 23:56:09 CET 2023
+types-1.0.0.pom>my-local-repository=
+types-1.0.0.pom>=
+types-1.0.0.jar>my-local-repository=
+types-1.0.0.jar>=

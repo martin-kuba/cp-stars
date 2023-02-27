@@ -1,5 +1,7 @@
 package cz.muni.fi.cpstars.bl.interfaces;
 
+import astrosearcher.classes.ResponseData;
+
 import java.util.List;
 
 /**
@@ -17,4 +19,14 @@ public interface AstroSearcherConnector {
      * @return list of object's aliases
      */
     List<String> getAliases(String baseIdentifier);
+
+    /**
+     * Return all data retrieved from AstroSearcher general search, e.g. Mast, Simbad, Vizier combined.
+     *
+     * @param baseIdentifier basic identifier used for query
+     *
+     * @return data from AstroSearcher
+     */
+    ResponseData getData(String baseIdentifier);
+
 }

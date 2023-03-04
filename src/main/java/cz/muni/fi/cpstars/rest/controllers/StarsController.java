@@ -5,6 +5,8 @@ import cz.muni.fi.cpstars.bl.interfaces.StarsBlManager;
 import cz.muni.fi.cpstars.dal.classes.StarBasicInfo;
 import cz.muni.fi.cpstars.dal.entities.Star;
 import cz.muni.fi.cpstars.dal.implementation.initialization.DataInitializer;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,15 +38,32 @@ public class StarsController {
      *
      * @return list of stars with basic information
      */
+    @Operation(
+            summary = "Get basic (general) information about all stars.",
+            description = "Return list of all stars in the database. Each star has only basic information assigned (coordinates)."
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "List of stars with basic information returned."
+    )
     @GetMapping
     public List<StarBasicInfo> getBasicInfoStarsList() {
 //        reload();
-        // TODO: Fetch data from database
-//        return TemporaryStarBasicInfo.loadedData;
         return starsBlManager.getAllStarsBasicInfo();
     }
 
-    // TODO: Change return type
+    @Operation(
+            summary = "Get all information about specified star.",
+            description = "Response contains exhaustive information about the star both from the database and external services. Information obtained include:\n" +
+                    "- coordinates\n" +
+                    "- identifiers\n" +
+                    "- photometry\n" +
+                    "- proper motions and parallaxes"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Star details found and returned."
+    )
     @GetMapping("/{id}")
     public Star getStarDetails(@PathVariable long id) {
         return starsBlManager.getStar(id);

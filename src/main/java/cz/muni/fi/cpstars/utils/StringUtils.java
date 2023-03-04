@@ -29,19 +29,20 @@ public abstract class StringUtils {
 
         for (String value : values) {
 
-            // if there are no quotes
-            if (value.length() < 2
-                    || !QUOTES.contains(value.charAt(0))
-                    || !QUOTES.contains(value.charAt(value.length() - 1))) {
-                continue;
+            int startIndex = 0;
+            int endIndex = value.length();
+
+            if (value.length() > 2
+                    && QUOTES.contains(value.charAt(0))
+                    && QUOTES.contains(value.charAt(value.length() - 1))) {
+                // quotes should be same
+                if (value.charAt(0) == value.charAt(value.length() - 1)) {
+                    startIndex = 1;
+                    endIndex = value.length() - 1;
+                }
             }
 
-            // quotes should be same
-            if (value.charAt(0) != value.charAt(value.length() - 1)) {
-                continue;
-            }
-
-            formattedValues.add(value.substring(1, value.length() - 1).trim());
+            formattedValues.add(value.substring(startIndex, endIndex).trim());
         }
 
         return formattedValues;

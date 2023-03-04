@@ -9,54 +9,39 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
- * Star magnitude entity class.
+ * Entity class for magnitude measurement attribute, e.g. weight of V magnitude.
  *
  * @author Ľuboslav Halama <lubo.halama@gmail.com>
  */
-@Getter
-@Setter
+@Entity
+@Table(name = "magnitude_attributes")
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "magnitudes")
-public class Magnitude {
+@Data
+public class MagnitudeAttribute {
 
     @Id
     @GeneratedValue
     @Column(name = "id", unique = true)
     private long id;
 
-    @JoinColumn(name = "star_id")
+    @JoinColumn(name = "attribute_definition_id")
+    @ManyToOne
+    private AttributeDefinition attributeDefinition;
+
+    @JoinColumn(name = "magnitude_id")
     @ManyToOne
     @JsonIgnore
-    private Star star;
-
-    @JoinColumn(name = "datasource_id")
-    @ManyToOne
-    private DataSource datasource;
-
-    @Column(name = "band")
-    private String name;
+    private Magnitude magnitude;
 
     @Column(name = "value")
-    private Double value;
-
-    @Column(name = "error")
-    private Double error;
-
-    @Column(name = "quality")
-    private Character quality;
-
-    @Column(name = "uncertainty_flag")
-    private Character uncertaintyFlag;
+    private String value;
 
     public boolean isDefined() {
-        return value != null
-                || error != null;
+        return value != null && !value.isEmpty();
     }
 }

@@ -28,5 +28,4 @@ public interface AstroSearcherConnector {
      * @return data from AstroSearcher
      */
     ResponseData getData(String baseIdentifier);
-
 }

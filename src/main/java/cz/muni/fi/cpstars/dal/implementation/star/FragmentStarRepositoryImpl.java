@@ -36,9 +36,9 @@ public class FragmentStarRepositoryImpl<T, ID extends Serializable> extends Simp
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<StarBasicInfo> query = cb.createQuery(StarBasicInfo.class);
         Root<Star> root = query.from(Star.class);
+        // TODO: FIX name obtaining
         query.select(cb.construct(StarBasicInfo.class,
                         root.get("id"),
-                        root.get("name"),
                         root.get("icrsRightAscension"),
                         root.get("icrsDeclination"),
                         root.get("galacticLongitude"),

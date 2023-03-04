@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 public class StarBasicInfo {
     public long id;
-    public String name;
+//    public String name;
     public Double icrsRightAscension;
     public Double icrsDeclination;
     public Double galacticLongitude;

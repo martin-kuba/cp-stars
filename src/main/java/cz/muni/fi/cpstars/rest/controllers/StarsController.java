@@ -4,7 +4,7 @@ import cz.muni.fi.cpstars.bl.implementation.StarsBlManagerImpl;
 import cz.muni.fi.cpstars.bl.interfaces.StarsBlManager;
 import cz.muni.fi.cpstars.dal.classes.StarBasicInfo;
 import cz.muni.fi.cpstars.dal.entities.Star;
-import cz.muni.fi.cpstars.dal.implementation.CsvDataLoaderImpl;
+import cz.muni.fi.cpstars.dal.implementation.initialization.DataInitializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,13 +22,12 @@ import java.util.List;
 @RestController
 public class StarsController {
 
-    private final CsvDataLoaderImpl csvDataLoaderImpl;
-
+    private final DataInitializer dataInitializer;
     private final StarsBlManager starsBlManager;
 
     @Autowired
-    public StarsController(CsvDataLoaderImpl csvDataLoaderImpl, StarsBlManagerImpl starsBlManagerImpl) {
-        this.csvDataLoaderImpl = csvDataLoaderImpl;
+    public StarsController(DataInitializer dataInitializer, StarsBlManagerImpl starsBlManagerImpl) {
+        this.dataInitializer = dataInitializer;
         this.starsBlManager = starsBlManagerImpl;
     }
 
@@ -52,6 +51,6 @@ public class StarsController {
     }
 
     private void reload() {
-        this.csvDataLoaderImpl.reloadHRDiagramValues();
+        this.dataInitializer.initializeData();
     }
 }

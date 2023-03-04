@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ import java.util.List;
  * @author Ľuboslav Halama <lubo.halama@gmail.com>
  */
 @Entity
-@Table(name = "cp_stars")
+@Table(name = "stars")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -31,8 +32,17 @@ public class Star {
     @Column(name = "id", unique = true)
     private long id;
 
-    @Column(name = "name")
-    private String name;
+//    @Column(name = "name")
+//    private String name;
+
+    @Column(name = "category_affiliation_probability_flag", length = 1)
+    private String consideredCategoryAffiliationProbabilityFlag;
+
+    @Column(name = "id_2009_A_and_A_498_961_R", length = 20)
+    private String id_2009_A_AND_A_498_961_R;
+
+    @Column(name = "binary_system_component", length = 1)
+    private String binarySystemComponent;
 
     @Column(name = "icrs_ra")
     private Double icrsRightAscension;
@@ -52,7 +62,13 @@ public class Star {
     @Column(name = "gal_latitude")
     private Double galacticLatitude;
 
-    @OneToMany(mappedBy = "star")
+    @Column(name = "alpha", length = 20)
+    private String alpha;
+
+    @Column(name = "delta", length = 20)
+    private String delta;
+
+    @OneToMany(mappedBy = "star", cascade = {CascadeType.ALL})
     private List<Magnitude> magnitudes;
 
     //    @OneToOne
@@ -62,11 +78,12 @@ public class Star {
 
     //    @OneToOne
     @OneToOne(mappedBy = "star", cascade = {CascadeType.ALL})
-//    @JoinColumn(name = "hr_diagram_values_id", referencedColumnName = "id")
-    private HRDiagramValues hrDiagramValues;
-
-    //    @OneToOne
-    @OneToOne(mappedBy = "star", cascade = {CascadeType.ALL})
 //    @JoinColumn(name = "proper_motion_id", referencedColumnName = "id")
-    private ProperMotion properMotion;
+    private Motion motion;
+
+    @OneToMany(mappedBy = "star", cascade = {CascadeType.ALL})
+    private List<RadialVelocity> radialVelocities;
+
+    @OneToMany(mappedBy = "star", cascade = {CascadeType.ALL})
+    private List<StarDatasourceAttribute> starDatasourceAttributes;
 }

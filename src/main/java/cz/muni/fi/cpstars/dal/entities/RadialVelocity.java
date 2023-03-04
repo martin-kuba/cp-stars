@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -13,44 +14,34 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Star proper motion entity class.
+ * Redial velocity entity class.
  *
  * @author Ľuboslav Halama <lubo.halama@gmail.com>
  */
 @Entity
-@Table(name = "proper_motion")
+@Table(name = "radial_velocities")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ProperMotion {
+public class RadialVelocity {
 
     @Id
     @GeneratedValue
     @Column(name = "id", unique = true)
     private long id;
 
-    //    @OneToOne(mappedBy = "properMotion")
-    @OneToOne
     @JoinColumn(name = "star_id", referencedColumnName = "id")
+    @ManyToOne
     @JsonIgnore
     private Star star;
 
-    @Column(name = "proper_motion_ra")
-    private Double properMotionRa;
+    @JoinColumn(name = "datasource_id")
+    @ManyToOne
+    private DataSource datasource;
 
-    @Column(name = "proper_motion_ra_error")
-    private Double properMotionRaError;
+    @Column(name = "radial_velocity")
+    private Double radialVelocity;
 
-    @Column(name = "proper_motion_dec")
-    private Double properMotionDec;
-
-    @Column(name = "proper_motion_dec_error")
-    private Double properMotionDecError;
-
-    public boolean isDefined() {
-        return properMotionRa != null
-                || properMotionRaError != null
-                || properMotionDec != null
-                || properMotionDecError != null;
-    }
+    @Column(name = "radial_velocity_error")
+    private Double radialVelocityError;
 }

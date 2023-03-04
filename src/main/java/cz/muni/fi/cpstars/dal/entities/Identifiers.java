@@ -36,6 +36,12 @@ public class Identifiers {
     @JsonIgnore
     private Star star;
 
+    @Column(name = "gaia_dr2")
+    private String gaiaDR2;
+
+    @Column(name = "gaia_dr3")
+    private String gaiaDR3;
+
     @Column(name = "hd")
     private String hd;
 
@@ -45,13 +51,9 @@ public class Identifiers {
     @Column(name = "hip")
     private String hip;
 
-    @Column(name = "dm")
-    private String dm;
-
     public boolean isDefined() {
         return hd != null
                 || tyc != null
-                || hip != null
-                || dm != null;
+                || hip != null;
     }
 }

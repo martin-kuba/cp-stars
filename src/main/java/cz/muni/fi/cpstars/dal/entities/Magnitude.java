@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,7 @@ public class Magnitude {
     @Id
     @GeneratedValue
     @Column(name = "id", unique = true)
+    @NotNull
     private long id;
 
     @JoinColumn(name = "star_id")
@@ -42,14 +44,19 @@ public class Magnitude {
 
     @JoinColumn(name = "datasource_id")
     @ManyToOne
+    @NonNull
+    @NotNull
     private DataSource datasource;
 
     @Column(name = "band", length = Constraints.MAGNITUDE_NAME_MAX_LENGTH)
     @Size(max = Constraints.MAGNITUDE_NAME_MAX_LENGTH)
     @NonNull
+    @NotNull
     private String name;
 
     @Column(name = "value")
+    @NonNull
+    @NotNull
     private Double value;
 
     @Column(name = "error")
@@ -61,9 +68,4 @@ public class Magnitude {
 
     @Column(name = "uncertainty_flag")
     private Character uncertaintyFlag;
-
-    public boolean isDefined() {
-        return value != null
-                || error != null;
-    }
 }

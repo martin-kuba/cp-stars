@@ -28,13 +28,13 @@ public class AstroSearcherConnectorImpl implements AstroSearcherConnector {
     @Override
     public List<String> getAliases(String baseIdentifier) {
         String paramString = "id=" + URLEncoder.encode(baseIdentifier, StandardCharsets.UTF_8);
-        return ((Aliases) connectionUtils.sendRequestGetData(Constants.ASTROSEARCHER_IDENTIFIERS_JSON_URL, paramString, RequestMethod.GET.toString(), Aliases.class)).getAliases();
+        return connectionUtils.sendRequestGetData(Constants.ASTROSEARCHER_IDENTIFIERS_JSON_URL, paramString, RequestMethod.GET.toString(), Aliases.class).getAliases();
     }
 
     @Override
     public ResponseData getData(String baseIdentifier) {
         String paramString = "id=" + URLEncoder.encode(baseIdentifier, StandardCharsets.UTF_8);
-        return (ResponseData) connectionUtils.sendRequestGetData(Constants.ASTROSEARCHER_RESULTS_JSON_URL, paramString, RequestMethod.GET.toString(), ResponseData.class);
+        return connectionUtils.sendRequestGetData(Constants.ASTROSEARCHER_RESULTS_JSON_URL, paramString, RequestMethod.GET.toString(), ResponseData.class);
     }
 
 }

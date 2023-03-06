@@ -1,7 +1,5 @@
 package cz.muni.fi.cpstars.bl.interfaces;
 
-import java.io.IOException;
-
 /**
  * Interface for HTTP utilities (requests, etc.)
  *
@@ -17,8 +15,7 @@ public interface ConnectionUtils {
      * @param method           request method
      * @param responseDataType response data type (class to be mapped to)
      * @return mapped data
-     * @throws IOException
-     * @throws InterruptedException
+     * @param <RESPONSE_DATA> expected (mapped) data type
      */
-    Object sendRequestGetData(String url, String parameters, String method, Class responseDataType);
+    <RESPONSE_DATA> RESPONSE_DATA sendRequestGetData(String url, String parameters, String method, Class<RESPONSE_DATA> responseDataType);
 }

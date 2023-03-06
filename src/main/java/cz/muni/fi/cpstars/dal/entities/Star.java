@@ -11,6 +11,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,7 @@ public class Star {
     @Id
     @GeneratedValue
     @Column(name = "id", unique = true)
+    @NotNull
     private long id;
 
     @Column(name = "category_affiliation_probability_flag", length = Constraints.STAR_FLAG_CONSIDERED_CATEGORY_AFFILIATION_PROBABILITY_MAX_LENGTH)

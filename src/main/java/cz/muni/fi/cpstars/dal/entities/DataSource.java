@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,15 +30,18 @@ public class DataSource {
     @Id
     @GeneratedValue
     @Column(name = "id", unique = true)
+    @NotNull
     private long id;
 
     @Column(name = "name", length = Constraints.DATASOURCE_NAME_MAX_LENGTH)
     @Size(max = Constraints.DATASOURCE_NAME_MAX_LENGTH)
     @NonNull
+    @NotNull
     private String name;
 
     @Column(name = "description", length = Constraints.DATASOURCE_DESCRIPTION_MAX_LENGTH)
     @Size(max = Constraints.DATASOURCE_DESCRIPTION_MAX_LENGTH)
     @NonNull
+    @NotNull
     private String description;
 }

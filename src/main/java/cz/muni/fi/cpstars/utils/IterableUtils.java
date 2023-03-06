@@ -11,7 +11,7 @@ import java.util.function.Function;
  *
  * @author Ľuboslav Halama <lubo.halama@gmail.com>
  */
-public class IterableUtils {
+public abstract class IterableUtils {
 
     /**
      * Convert iterable object into list.

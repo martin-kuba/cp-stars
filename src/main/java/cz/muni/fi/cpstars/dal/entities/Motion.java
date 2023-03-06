@@ -12,10 +12,12 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 /**
  * Star motion entity class.
@@ -32,6 +34,7 @@ public class Motion {
     @Id
     @GeneratedValue
     @Column(name = "id", unique = true)
+    @NotNull
     private long id;
 
     @JoinColumn(name = "star_id", referencedColumnName = "id")
@@ -41,6 +44,8 @@ public class Motion {
 
     @JoinColumn(name = "datasource_id")
     @ManyToOne
+    @NonNull
+    @NotNull
     private DataSource datasource;
 
     @Column(name = "proper_motion_ra")

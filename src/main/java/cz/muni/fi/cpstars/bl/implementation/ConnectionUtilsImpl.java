@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -15,7 +16,7 @@ import java.net.http.HttpResponse;
 public class ConnectionUtilsImpl implements ConnectionUtils {
 
     @Override
-    public Object sendRequestGetData(String url, String parameters, String method, Class responseDataType) {
+    public <RESPONSE_DATA> RESPONSE_DATA sendRequestGetData(String url, String parameters, String method, Class<RESPONSE_DATA> responseDataType) {
 
         // create a client
         var client = HttpClient.newHttpClient();
@@ -33,9 +34,16 @@ public class ConnectionUtilsImpl implements ConnectionUtils {
             ObjectMapper mapper = new ObjectMapper();
 
             return mapper.readValue(response.body(), responseDataType);
-        } catch (IOException | InterruptedException e) {
-//            throw new RuntimeException(e);
+        } catch (IOException | InterruptedException ignored) {
         }
+
+        // if any problem occured, try to create empty-constructor instance instead
+        try {
+            return responseDataType.getConstructor().newInstance();
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException ignored) {
+        }
+
+        // if no empty constructor is present within a class, return null
         return null;
     }
 }

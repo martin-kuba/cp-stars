@@ -15,7 +15,8 @@ public abstract class Paths {
 
     // used to define all possible paths, e.g. '/stars' or '/stars/1'.
     public static final String ALL_APPLICATION_PATHS = "/**";
-    public static final String CROSS_ORIGIN_FRONTEND = LOCALHOST + ":" + FRONTEND_PORT;
+    public static final String CROSS_ORIGIN_FRONTEND_LOCALHOST = LOCALHOST + ":" + FRONTEND_PORT;
+    public static final String CROSS_ORIGIN_FRONTEND = "147.251.21.135:" + FRONTEND_PORT;
 
 
     // ********************

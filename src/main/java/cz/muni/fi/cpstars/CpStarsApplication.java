@@ -25,10 +25,7 @@ public class CpStarsApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(@NonNull CorsRegistry registry) {
-				registry.addMapping(Paths.ALL_APPLICATION_PATHS).allowedOrigins(
-						Paths.CROSS_ORIGIN_FRONTEND_LOCALHOST,
-						Paths.CROSS_ORIGIN_FRONTEND
-				);
+				registry.addMapping(Paths.ALL_APPLICATION_PATHS);
 			}
 		};
 	}

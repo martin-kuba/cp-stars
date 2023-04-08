@@ -34,6 +34,7 @@ public class AstroSearcherConnectorImpl implements AstroSearcherConnector {
     @Override
     public ResponseData getData(String baseIdentifier) {
         String paramString = "id=" + URLEncoder.encode(baseIdentifier, StandardCharsets.UTF_8);
+//        System.out.println("PARAM: " + paramString);
         return connectionUtils.sendRequestGetData(Constants.ASTROSEARCHER_RESULTS_JSON_URL, paramString, RequestMethod.GET.toString(), ResponseData.class);
     }
 

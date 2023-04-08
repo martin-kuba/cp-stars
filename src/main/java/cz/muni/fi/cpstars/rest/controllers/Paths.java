@@ -22,6 +22,18 @@ public abstract class Paths {
     // **   REST PATHS   **
     // ********************
     public static final String CP_STARS_DATABASE = "/stars";
+    public static final String CP_STARS_DATABASE_EXTENDED = "/extended";
+    public static final String CP_STARS_DATABASE_IDENTIFIERS_PARTIAL = "/identifiers";
+    public static final String CP_STARS_DATABASE_MAGNITUDES_PARTIAL = "/magnitudes";
+    public static final String CP_STARS_DATABASE_MOTIONS_PARTIAL = "/motions";
+    public static final String CP_STARS_DATABASE_RADIAL_VELOCITIES_PARTIAL = "/radialvelocities";
+    public static final String CP_STARS_DATABASE_STAR_DATASOURCE_ATTRIBUTES_PARTIAL = "/stardatasourceattributes";
+    public static final String CP_STARS_DATASOURCES = "/datasources";
+
+
+    // EXPORT
+    public static final String EXPORT = "/export";
+    public static final String FORMAT_TXT = "txt";
 
 
     // EXTERNAL SERVICES

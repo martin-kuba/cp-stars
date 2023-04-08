@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.ToString;
 
 /**
  * Redial velocity entity class.
@@ -35,7 +36,6 @@ public class RadialVelocity {
 
     @JoinColumn(name = "star_id", referencedColumnName = "id")
     @ManyToOne
-    @JsonIgnore
     private Star star;
 
     @JoinColumn(name = "datasource_id")

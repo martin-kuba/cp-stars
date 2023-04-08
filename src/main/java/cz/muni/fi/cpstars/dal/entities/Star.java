@@ -1,5 +1,6 @@
 package cz.muni.fi.cpstars.dal.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.muni.fi.cpstars.dal.Constraints;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -17,6 +18,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -87,17 +89,27 @@ public class Star {
     private String delta;
 
     @OneToMany(mappedBy = "star", cascade = {CascadeType.ALL})
+    @ToString.Exclude
+    @JsonIgnore
     private List<Magnitude> magnitudes;
 
-    @OneToOne(mappedBy = "star", cascade = {CascadeType.ALL})
-    private Identifiers identifiers;
-
-    @OneToOne(mappedBy = "star", cascade = {CascadeType.ALL})
-    private Motion motion;
+    @OneToMany(mappedBy = "star", cascade = {CascadeType.ALL})
+    @ToString.Exclude
+    @JsonIgnore
+    private List<Identifier> identifier;
 
     @OneToMany(mappedBy = "star", cascade = {CascadeType.ALL})
+    @ToString.Exclude
+    @JsonIgnore
+    private List<Motion> motions;
+
+    @OneToMany(mappedBy = "star", cascade = {CascadeType.ALL})
+    @ToString.Exclude
+    @JsonIgnore
     private List<RadialVelocity> radialVelocities;
 
     @OneToMany(mappedBy = "star", cascade = {CascadeType.ALL})
+    @ToString.Exclude
+    @JsonIgnore
     private List<StarDatasourceAttribute> starDatasourceAttributes;
 }

@@ -39,6 +39,23 @@ public class DataSource {
     @NotNull
     private String name;
 
+    @Column(name = "full_name", length = Constraints.DATASOURCE_FULL_NAME_MAX_LENGTH)
+    @Size(max = Constraints.DATASOURCE_FULL_NAME_MAX_LENGTH)
+    @NonNull
+    @NotNull
+    private String fullName;
+
+    @Column(name = "year")
+    @NonNull
+    @NotNull
+    private Integer year;
+
+    @Column(name = "bibcode", length = Constraints.DATASOURCE_BIBCODE_LENGTH)
+    @Size(max = Constraints.DATASOURCE_BIBCODE_LENGTH)
+    @NonNull
+    @NotNull
+    private String bibcode;
+
     @Column(name = "description", length = Constraints.DATASOURCE_DESCRIPTION_MAX_LENGTH)
     @Size(max = Constraints.DATASOURCE_DESCRIPTION_MAX_LENGTH)
     @NonNull

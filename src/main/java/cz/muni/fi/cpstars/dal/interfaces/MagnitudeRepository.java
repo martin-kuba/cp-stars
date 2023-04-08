@@ -1,7 +1,11 @@
 package cz.muni.fi.cpstars.dal.interfaces;
 
 import cz.muni.fi.cpstars.dal.entities.Magnitude;
+import cz.muni.fi.cpstars.dal.entities.Star;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+
+import java.util.List;
 
 /**
  * Repository interface for Magnitude Entity.
@@ -10,4 +14,11 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface MagnitudeRepository extends CrudRepository<Magnitude, Long> {
     Magnitude findById(long id);
+
+    List<Magnitude> findAllByStar(Star star);
+
+    @Query(value = "SELECT m " +
+            "FROM Magnitude m " +
+            "WHERE m.star.id=?1")
+    List<Magnitude> findAllByStarId(long starId);
 }

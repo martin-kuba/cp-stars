@@ -64,7 +64,7 @@ public class CsvDataLoaderImpl implements CsvDataLoader {
         loadedObjects.clear();
         for (CSVLoadMethodInfo csvLoadMethodInfo : csvLoadMethodsInfo) {
             csvLoadMethodInfo.setColumns(values);
-            csvLoadMethodInfo.setColumnIndices(columnIndices);
+            csvLoadMethodInfo.setColumnsIndices(columnIndices);
 
             loadedObjects.put(csvLoadMethodInfo.getObjectName(), csvLoadMethodInfo.getProcessingMethod().apply(csvLoadMethodInfo));
         }

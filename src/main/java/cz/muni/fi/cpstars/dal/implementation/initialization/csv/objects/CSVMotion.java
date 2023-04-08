@@ -1,5 +1,6 @@
 package cz.muni.fi.cpstars.dal.implementation.initialization.csv.objects;
 
+import cz.muni.fi.cpstars.dal.entities.DataSource;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,6 +13,18 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CSVMotion {
+
+    // **************************
+    // **   Database related   **
+    // **************************
+
+    // Attribute datasource (system), e.g. DR2
+    private final DataSource datasource;
+
+
+    // *********************
+    // **   CSV columns   **
+    // *********************
     private final String properMotionRightAscensionColumn;
     private final String properMotionRightAscensionErrorColumn;
     private final String properMotionDeclinationColumn;

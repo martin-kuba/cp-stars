@@ -5,12 +5,13 @@ import cz.muni.fi.cpstars.dal.entities.DataSource;
 import cz.muni.fi.cpstars.dal.entities.MagnitudeAttribute;
 import cz.muni.fi.cpstars.dal.entities.RadialVelocity;
 import cz.muni.fi.cpstars.dal.entities.StarDatasourceAttribute;
-import cz.muni.fi.cpstars.dal.entities.Identifiers;
+import cz.muni.fi.cpstars.dal.entities.Identifier;
 import cz.muni.fi.cpstars.dal.entities.Magnitude;
 import cz.muni.fi.cpstars.dal.entities.Motion;
 import cz.muni.fi.cpstars.dal.entities.Star;
 import cz.muni.fi.cpstars.dal.implementation.initialization.csv.CSVColumnNames;
 import cz.muni.fi.cpstars.dal.implementation.initialization.csv.CSVLoadMethodInfo;
+import cz.muni.fi.cpstars.dal.implementation.initialization.csv.objects.CSVIdentifier;
 import cz.muni.fi.cpstars.dal.implementation.initialization.csv.objects.CSVMagnitudeAttribute;
 import cz.muni.fi.cpstars.dal.implementation.initialization.csv.objects.CSVRadialVelocity;
 import cz.muni.fi.cpstars.dal.implementation.initialization.csv.objects.CSVStarDatasourceAttribute;
@@ -25,7 +26,7 @@ import cz.muni.fi.cpstars.dal.interfaces.IdentifiersRepository;
 import cz.muni.fi.cpstars.dal.interfaces.MagnitudeRepository;
 import cz.muni.fi.cpstars.dal.interfaces.MotionRepository;
 import cz.muni.fi.cpstars.dal.interfaces.csv.CsvDataLoader;
-import cz.muni.fi.cpstars.dal.interfaces.star.StarRepository;
+import cz.muni.fi.cpstars.dal.interfaces.StarRepository;
 import cz.muni.fi.cpstars.utils.IterableUtils;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -98,6 +99,7 @@ public class DataInitializer {
         identifiersRepository.deleteAll();
         magnitudeRepository.deleteAll();
         motionRepository.deleteAll();
+        radialVelocityRepository.deleteAll();
         starRepository.deleteAll();
 
         // load rows by one, process it and store into database
@@ -114,10 +116,10 @@ public class DataInitializer {
             }
 
             if ((object = csvDataLoader.getObject(Names.OBJECT_IDENTIFIERS)) != null) {
-                Identifiers identifiers = (Identifiers) object;
+                List<Identifier> identifiers = (List<Identifier>) object;
                 // fetch star object into identifiers
-                identifiers.setStar(star);
-                identifiersRepository.save((Identifiers) object);
+                identifiers.forEach(identifier -> identifier.setStar(star));
+                identifiersRepository.saveAll(identifiers);
             }
 
             if ((object = csvDataLoader.getObject(Names.OBJECT_MAGNITUDES)) != null) {
@@ -220,6 +222,29 @@ public class DataInitializer {
                 dataSourceRepository.findAll(),
                 DataSource::getName
         );
+
+        List<Object> identifiersToLoad = new ArrayList<>() {{
+            add(new CSVIdentifier(
+                    datasources.get(Names.DATASOURCE_GAIADR2),
+                    CSVColumnNames.IDENTIFIER_GAIA_DR2
+            ));
+            add(new CSVIdentifier(
+                    datasources.get(Names.DATASOURCE_GAIADR3),
+                    CSVColumnNames.IDENTIFIER_GAIA_DR3
+            ));
+            add(new CSVIdentifier(
+                    datasources.get(Names.DATASOURCE_HDE),
+                    CSVColumnNames.IDENTIFIER_HD
+            ));
+            add(new CSVIdentifier(
+                    datasources.get(Names.DATASOURCE_HIPPARCOS),
+                    CSVColumnNames.IDENTIFIER_HIP
+            ));
+            add(new CSVIdentifier(
+                    datasources.get(Names.DATASOURCE_TYC),
+                    CSVColumnNames.IDENTIFIER_TYC
+            ));
+        }};
 
         List<Object> magnitudeAttributesToLoad = new ArrayList<>() {{
            add(new CSVMagnitudeAttribute(
@@ -544,6 +569,7 @@ public class DataInitializer {
 
         List<Object> motionsToLoad = new ArrayList<>() {{
             add(new CSVMotion(
+                    datasources.get(Names.DATASOURCE_GAIADR2),
                     CSVColumnNames.MOTION_DR2_PROPER_MOTION_RA,
                     CSVColumnNames.MOTION_DR2_PROPER_MOTION_RA_ERROR,
                     CSVColumnNames.MOTION_DR2_PROPER_MOTION_DEC,
@@ -551,6 +577,7 @@ public class DataInitializer {
                     CSVColumnNames.MOTION_DR2_PARALLAX,
                     CSVColumnNames.MOTION_DR2_PARALLAX_ERROR));
             add(new CSVMotion(
+                    datasources.get(Names.DATASOURCE_GAIADR3),
                     CSVColumnNames.MOTION_DR3_PROPER_MOTION_RA,
                     CSVColumnNames.MOTION_DR3_PROPER_MOTION_RA_ERROR,
                     CSVColumnNames.MOTION_DR3_PROPER_MOTION_DEC,
@@ -558,6 +585,7 @@ public class DataInitializer {
                     CSVColumnNames.MOTION_DR3_PARALLAX,
                     CSVColumnNames.MOTION_DR3_PARALLAX_ERROR));
             add(new CSVMotion(
+                    datasources.get(Names.DATASOURCE_HIPPARCOS),
                     CSVColumnNames.MOTION_HIPPARCOS_PROPER_MOTION_RA,
                     CSVColumnNames.MOTION_HIPPARCOS_PROPER_MOTION_RA_ERROR,
                     CSVColumnNames.MOTION_HIPPARCOS_PROPER_MOTION_DEC,
@@ -575,7 +603,7 @@ public class DataInitializer {
            ));
         }};
 
-        csvLoadMethods.add(new CSVLoadMethodInfo(Names.OBJECT_IDENTIFIERS, new ArrayList<>(), PreparationMethods::prepareIdentifiers));
+        csvLoadMethods.add(new CSVLoadMethodInfo(Names.OBJECT_IDENTIFIERS, identifiersToLoad, PreparationMethods::prepareIdentifiers));
         csvLoadMethods.add(new CSVLoadMethodInfo(Names.OBJECT_STAR, new ArrayList<>(), PreparationMethods::prepareStar));
         csvLoadMethods.add(new CSVLoadMethodInfo(Names.OBJECT_MAGNITUDE_ATTRIBUTES, magnitudeAttributesToLoad, PreparationMethods::prepareMagnitudeAttributes));
         csvLoadMethods.add(new CSVLoadMethodInfo(Names.OBJECT_STAR_DATASOURCE_ATTRIBUTES, starDatasourceAttributesToLoad, PreparationMethods::prepareStarDatasourceAttributes));

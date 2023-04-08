@@ -32,6 +32,27 @@
 			<artifactId>types</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>cds.savot.common</groupId>
+			<artifactId>common</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>cds.savot.model</groupId>
+			<artifactId>model</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>cds.savot.pull</groupId>
+			<artifactId>pull</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>kxml2-min</groupId>
+			<artifactId>kxml2-min</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 
 		<!-- external repositories dependencies -->
 		<dependency>
@@ -76,6 +97,11 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.14.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.10.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>

@@ -57,10 +57,22 @@ public abstract class StringUtils {
      * @return default value if provided String was empty, provided String otherwise.
      */
     public static String defaultIfEmpty(String value, String defaultValue) {
-        return value.length() == 0 ? defaultValue : value;
+        return (value.length() == 0) ? defaultValue : value;
     }
 
     public static <T> T ApplyIfNotEmptyOrNull(String input, Function<String, T> functionToApply, T defaultValue) {
         return (input == null || input.length() == 0) ? defaultValue : functionToApply.apply(input);
+    }
+
+    public static String format(String formatString, String defaultValueIfNull, Object... args) {
+
+        // if any argument is null, replace it with default value
+        for (int i = 0; i < args.length; i++) {
+            if (args[i] == null) {
+                args[i] = defaultValueIfNull;
+            }
+        }
+
+        return String.format(formatString, args);
     }
 }

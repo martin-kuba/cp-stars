@@ -25,14 +25,16 @@ public class Names {
     // *********************
     public static final String DATASOURCE_2MASS = "2MASS";
     public static final String DATASOURCE_APASS = "APASS";
-    public static final String DATASOURCE_CATALOGUE_AP_HGMN_AM_STARS = "2009A&A...498..961R";
-    public static final String DATASOURCE_CATALOGUE_DELTA_A_PHOTOMETRY = "2005A&A...441..631P";
-    public static final String DATASOURCE_GAIADR2 = "GaiaDr2";
-    public static final String DATASOURCE_GAIADR3 = "GaiaDr3";
+    public static final String DATASOURCE_CATALOGUE_AP_HGMN_AM_STARS = "Ap, HgMn and Am stars";
+    public static final String DATASOURCE_CATALOGUE_DELTA_A_PHOTOMETRY = "CP stars Δa detection";
+    public static final String DATASOURCE_GAIADR2 = "Gaia DR2";
+    public static final String DATASOURCE_GAIADR3 = "Gaia DR3";
     public static final String DATASOURCE_GENEVA = "Geneva";
+    public static final String DATASOURCE_HDE = "HDE";
     public static final String DATASOURCE_HIPPARCOS = "Hipparcos";
     public static final String DATASOURCE_JOHNSON = "Johnson";
     public static final String DATASOURCE_STROEMGREN = "Stroemgren";
+    public static final String DATASOURCE_TYC = "TYC";
 
     // ********************
     // **   MAGNITUDES   **

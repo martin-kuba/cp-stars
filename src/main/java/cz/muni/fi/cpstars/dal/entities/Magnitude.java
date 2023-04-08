@@ -13,22 +13,22 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Star magnitude entity class.
  *
  * @author Ľuboslav Halama <lubo.halama@gmail.com>
  */
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "magnitudes")
+@Data
 public class Magnitude {
 
     @Id
@@ -39,7 +39,7 @@ public class Magnitude {
 
     @JoinColumn(name = "star_id")
     @ManyToOne
-    @JsonIgnore
+    @ToString.Exclude
     private Star star;
 
     @JoinColumn(name = "datasource_id")

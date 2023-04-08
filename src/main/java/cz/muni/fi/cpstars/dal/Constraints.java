@@ -18,18 +18,16 @@ public class Constraints {
     // ********************
     // **   DATASOURCE   **
     // ********************
+    public static final int DATASOURCE_BIBCODE_LENGTH = 19;
     public static final int DATASOURCE_DESCRIPTION_MAX_LENGTH = 16384;
+    public static final int DATASOURCE_FULL_NAME_MAX_LENGTH = 100;
     public static final int DATASOURCE_NAME_MAX_LENGTH = 30;
 
 
     // *********************
     // **   IDENTIFIERS   **
     // *********************
-    public static final int IDENTIFIERS_GAIADR2_MAX_LENGTH = 30;
-    public static final int IDENTIFIERS_GAIADR3_MAX_LENGTH = 30;
-    public static final int IDENTIFIERS_HD_MAX_LENGTH = 8;
-    public static final int IDENTIFIERS_HIP_MAX_LENGTH = 8;
-    public static final int IDENTIFIERS_TYC_MAX_LENGTH = 12;
+    public static final int IDENTIFIERS_MAX_LENGTH = 30;
 
 
     // *******************
@@ -48,8 +46,8 @@ public class Constraints {
     // ****************
     // **   MOTION   **
     // ****************
-    public static final int MOTION_PARALLAX_MIN = 0;
-    public static final int MOTION_PARALLAX_MAX = 90;
+    public static final int MOTION_PARALLAX_MIN = -180;
+    public static final int MOTION_PARALLAX_MAX = 180;
 
 
     // **************

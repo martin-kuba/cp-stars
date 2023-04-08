@@ -35,5 +35,5 @@ public class CSVLoadMethodInfo {
     private List<String> columns = new ArrayList<>();
 
     // map where specific value can be found
-    private Map<String, Integer> columnIndices = new HashMap<>();
+    private Map<String, Integer> columnsIndices = new HashMap<>();
 }

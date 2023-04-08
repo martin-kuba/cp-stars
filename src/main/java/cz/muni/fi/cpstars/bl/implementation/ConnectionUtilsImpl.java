@@ -1,6 +1,11 @@
 package cz.muni.fi.cpstars.bl.implementation;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.sun.jdi.InternalException;
 import cz.muni.fi.cpstars.bl.interfaces.ConnectionUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -33,10 +38,26 @@ public class ConnectionUtilsImpl implements ConnectionUtils {
 
             ObjectMapper mapper = new ObjectMapper();
 
-            return mapper.readValue(response.body(), responseDataType);
-        } catch (IOException | InterruptedException ignored) {
+            GsonBuilder builder = new GsonBuilder();
+            builder.setPrettyPrinting();
+            Gson gson = builder.create();
+
+//            System.out.println("RESPONSE: " + response.body());
+            return gson.fromJson(response.body(), responseDataType);
+
+
+//            return mapper.readValue(response.body(), responseDataType);
+        } catch (JsonMappingException jme) {
+//            System.out.println("MAPPING EXCEPTION");
+            jme.printStackTrace();
+        } catch (JsonProcessingException jpe) {
+//            System.out.println("PROCESSING EXCEPTION");
+            jpe.printStackTrace();
+        }
+        catch (IOException | InterruptedException ignored) {
         }
 
+//        System.out.println("ERROR OCCURRED");
         // if any problem occured, try to create empty-constructor instance instead
         try {
             return responseDataType.getConstructor().newInstance();

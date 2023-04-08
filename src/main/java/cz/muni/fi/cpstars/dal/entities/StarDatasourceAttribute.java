@@ -48,7 +48,6 @@ public class StarDatasourceAttribute {
 
     @JoinColumn(name = "star_id")
     @ManyToOne
-    @JsonIgnore
     private Star star;
 
     @Column(name = "value", length = Constraints.STAR_DATASOURCE_VALUE_MAX_LENGTH)

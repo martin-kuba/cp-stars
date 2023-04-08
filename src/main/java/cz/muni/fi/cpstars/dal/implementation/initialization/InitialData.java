@@ -67,6 +67,9 @@ public class InitialData {
     public static final List<DataSource> DATASOURCES = new ArrayList<>() {{
         add(new DataSource(
                 Names.DATASOURCE_2MASS,
+                "The Two Micron All Sky Survey",
+                2003,
+                "2003yCat.2246....0C",
                 "The Two Micron All Sky Survey (2MASS) project is designed to close the \n" +
                         "gap between our current technical capability and our knowledge of the \n" +
                         "near-infrared sky. In addition to providing a context for the \n" +
@@ -108,6 +111,9 @@ public class InitialData {
         ));
         add(new DataSource(
                 Names.DATASOURCE_APASS,
+                "The AAVSO Photometric All Sky Survey",
+                2016,
+                "2016yCat.2336....0H",
                 "The AAVSO Photometric All Sky Survey (APASS) project is designed to \n" +
                         "bridge the gap between the shallow Tycho2 two-bandpass photometric \n" +
                         "catalog that is complete to V=11 and the deeper, but less \n" +
@@ -136,16 +142,25 @@ public class InitialData {
         ));
         add(new DataSource(
                 Names.DATASOURCE_CATALOGUE_AP_HGMN_AM_STARS,
+                "General catalogue of Ap, HgMn and Am stars",
+                2009,
+                "2009A&A...498..961R",
                 "We present a catalogue of 8205 known or suspected Ap, HgMn and Am stars. This paper is a major update of our first edition of the catalog of Ap and Am stars and includes revised identifications, additional stars and revised information obtained from the literature.\n" +
                         "\n" +
                         "Catalogue (full Table 1) is only available in electronic form at the CDS via anonymous ftp to cdsarc.u-strasbg.fr (130.79.128.5) or via http://cdsweb.u-strasbg.fr/cgi-bin/qcat?J/A+A/498/961"
         ));
         add(new DataSource(
                 Names.DATASOURCE_CATALOGUE_DELTA_A_PHOTOMETRY,
+                "On the detection of chemically peculiar stars using Δa photometry",
+                2005,
+                "2005A&A...441..631P",
                 "We have summarized all Δ a measurements for galactic field stars (1474 objects) from the literature published over more than two decades. These measurements were, for the first time, compiled and homogeneously analyzed. The Δ a intermediate band photometric system samples the depth of the 5200 Å flux depression by comparing the flux at the center with the adjacent regions with bandwidths of 110 Å to 230 Å. Because it was slightly modified over the last three decades, we checked for systematic trends for the different measurements but found no correlations whatsoever. The Δ a photometric system is most suitable to detecting magnetic chemically peculiar (CP) stars with high efficiency, but is also capable of detecting a small percentage of non-magnetic CP objects. Furthermore, the groups of (metal-weak) λ Bootis, as well as classical Be/shell stars, can be successfully investigated. In addition, we also analyzed the behaviour of supergiants (luminosity class I and II). On the basis of apparent normal type objects, the correlation of the 3σ significance limit and the percentage of positive detection for all groups was derived. We compared the capability of the Δ a photometric system with the Δ (V1 - G) and Z indices of the Geneva 7-color system to detect peculiar objects. Both photometric systems show the same efficiency for the detection of CP and λ Bootis stars, while the indices in the Geneva system are even more efficient at detecting Be/shell objects. On the basis of this statistical analysis it is possible to derive the incidence of CP stars in galactic open cluster and extragalactic systems including the former unknown bias of undetected objects. This is especially important in order to make a sound statistical analysis of the correlation between the occurrence of these objects and astrophysical parameters such as the age, metallicity, and strength of global, as well as local, magnetic fields."
         ));
         add(new DataSource(
                 Names.DATASOURCE_GAIADR2,
+                "Gaia Data Release 2",
+                2018,
+                "2018yCat.1345....0G",
                 "Contents of Gaia DR2:\n" +
                         "\n" +
                         "The five-parameter astrometric solution - positions on the sky \n" +
@@ -215,6 +230,9 @@ public class InitialData {
         ));
         add(new DataSource(
                 Names.DATASOURCE_GAIADR3,
+                "Gaia Data Release 3",
+                2022,
+                "2022yCat.1355....0G",
                 "The set of data released as Gaia Early Data Release 3 (Gaia EDR3) on 3 \n" +
                         "December 2020 comprises: \n" +
                         "\n" +
@@ -355,6 +373,9 @@ public class InitialData {
         ));
         add(new DataSource(
                 Names.DATASOURCE_GENEVA,
+                "Catalogue of Geneva seven-colour photometry",
+                2022,
+                "2022A&A...661A..89P",
                 "The Geneva seven-colour photometric system is successfully applied to \n" +
                         "the study of various astrophysical objects. It measures the slope of \n" +
                         "the Paschen continuum, the Balmer discontinuity, and blocking \n" +
@@ -372,7 +393,17 @@ public class InitialData {
                         "http://gcpd.physics.muni.cz/"
         ));
         add(new DataSource(
+                Names.DATASOURCE_HDE,
+                "Henry Draper Catalogue and Extension I",
+                1989,
+                "1993yCat.3135....0C",
+                "An updated, corrected, and extended machine-readable version of The Henry Draper Catalogue (HD, Cannon & Pickering 1918-1924) is available with documentation from the Astronomical Data Center (ADC) as of April 1989. Published and unpublished errors discovered in the previous version have been corrected; letters indicating supplemental stars in the BD have been moved to a new byte to distinguish them from double-star components; and the machine-readable portion of The Henry Draper Extension (HDE) (HA 100; Cannon 1925-1936) has been converted to the same format as the main catalog with additional data added as necessary. The catalog lists HD numbers, Durchmusterung numbers, positions for equinox B1900, photovisual and photographic magnitudes, spectral types, codes for the intensity of the spectra used, and remarks."
+        ));
+        add(new DataSource(
                 Names.DATASOURCE_HIPPARCOS,
+                "Hipparcos, the new Reduction of the Raw data",
+                2007,
+                "2007A&A...474..653V",
                 "A new reduction of the astrometric data as produced by the Hipparcos \n" +
                         "mission has been published, claiming accuracies for nearly all stars \n" +
                         "brighter than magnitude Hp=8 to be better, by up to a factor 4, than \n" +
@@ -402,10 +433,16 @@ public class InitialData {
         ));
         add(new DataSource(
                 Names.DATASOURCE_JOHNSON,
+                "Johnson UBV Magnitudes",
+                -1,
+                "",
                 ""
         ));
         add(new DataSource(
                 Names.DATASOURCE_STROEMGREN,
+                "Photometric uvbyβ catalog",
+                2015,
+                "2015A&A...580A..23P",
                 "This catalogue includes very precise celestial coordinates, but is \n" +
                         "magnitude and spatial resolution limited. However, the loss of objects \n" +
                         "is only marginal and is compensated for by the gain of homogeneity. In \n" +
@@ -422,6 +459,13 @@ public class InitialData {
                         "Update (08.11.2021): \n" +
                         "The catalogue was updated with all new data available until \n" +
                         "September 2021."
+        ));
+        add(new DataSource(
+                Names.DATASOURCE_TYC,
+                "The Tycho-2 Catalogue",
+                2000,
+                "2000A&A...355L..27H",
+                "The Tycho-2 Catalogue presented here is an astrometric reference catalogue containing positions and proper motions as well as two-colour photometric data for the 2.5 million brightest stars in the sky. The Tycho-2 positions and magnitudes are based on precisely the same observations as the original Tycho Catalogue (hereafter Tycho-1) collected by the star mapper of the ESA Hipparcos satellite, but Tycho-2 is much bigger and slightly more precise, owing to a more advanced reduction technique. Components of double stars with separations down to 0.8 arcsec are included. Proper motions precise to about 2.5 mas/yr are given as derived from a comparison with the Astrographic Catalogue and 143 other ground-based astrometric catalogues, all reduced to the Hipparcos celestial coordinate system. Tycho-2 supersedes in most applications Tycho-1, as well as the ACT and TRC catalogues based on Tycho-1. Based on observations made with the ESA Hipparcos astrometry satellite. The catalogue is distributed on CD-ROM and through the astronomical data centres, and further information is given on the website http://www.astro.ku.dk/~erik/Tycho-2."
         ));
     }};
 

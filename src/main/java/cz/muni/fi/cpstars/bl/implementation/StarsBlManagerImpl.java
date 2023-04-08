@@ -1,9 +1,12 @@
 package cz.muni.fi.cpstars.bl.implementation;
 
+import astrosearcher.classes.ResponseData;
+import cz.muni.fi.cpstars.bl.interfaces.AstroSearcherConnector;
 import cz.muni.fi.cpstars.bl.interfaces.StarsBlManager;
+import cz.muni.fi.cpstars.dal.classes.ExtendedStar;
 import cz.muni.fi.cpstars.dal.classes.StarBasicInfo;
 import cz.muni.fi.cpstars.dal.entities.Star;
-import cz.muni.fi.cpstars.dal.interfaces.star.StarRepository;
+import cz.muni.fi.cpstars.dal.interfaces.StarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +21,12 @@ import java.util.List;
 @Service
 public class StarsBlManagerImpl implements StarsBlManager {
 
+    private final AstroSearcherConnector astroSearcherConnector;
     private StarRepository starRepository;
 
     @Autowired
-    public StarsBlManagerImpl(StarRepository starRepository) {
+    public StarsBlManagerImpl(AstroSearcherConnectorImpl astroSearcherConnectorImpl, StarRepository starRepository) {
+        this.astroSearcherConnector = astroSearcherConnectorImpl;
         this.starRepository = starRepository;
     }
     @Override
@@ -33,5 +38,36 @@ public class StarsBlManagerImpl implements StarsBlManager {
     public Star getStar(long id) {
         Star found = starRepository.findById(id);
         return found == null ? new Star() : found;
+    }
+
+
+    @Override
+    public ExtendedStar getExtendedStar(long id) {
+        Star found = starRepository.findById(id);
+
+        if (found == null) {
+            return new ExtendedStar();
+        }
+
+        return getExtendedStar(found, "Renson " + found.getId_2009_A_AND_A_498_961_R());
+    }
+
+    @Override
+    public ExtendedStar getExtendedStar(long id, String externalIdentifier) {
+        Star found = starRepository.findById(id);
+
+        if (found == null) {
+            return new ExtendedStar();
+        }
+
+        return getExtendedStar(found, externalIdentifier);
+    }
+
+    @Override
+    public ExtendedStar getExtendedStar(Star star, String externalIdentifier) {
+        // get external data
+        ResponseData externalData = astroSearcherConnector.getData(externalIdentifier);
+
+        return new ExtendedStar(star, externalData);
     }
 }

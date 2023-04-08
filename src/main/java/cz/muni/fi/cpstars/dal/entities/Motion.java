@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.ToString;
 
 /**
  * Star motion entity class.
@@ -38,8 +39,7 @@ public class Motion {
     private long id;
 
     @JoinColumn(name = "star_id", referencedColumnName = "id")
-    @OneToOne
-    @JsonIgnore
+    @ManyToOne
     private Star star;
 
     @JoinColumn(name = "datasource_id")
@@ -52,23 +52,23 @@ public class Motion {
     private Double properMotionRa;
 
     @Column(name = "proper_motion_ra_error")
-    @PositiveOrZero
+//    @PositiveOrZero
     private Double properMotionRaError;
 
     @Column(name = "proper_motion_dec")
     private Double properMotionDec;
 
     @Column(name = "proper_motion_dec_error")
-    @PositiveOrZero
+//    @PositiveOrZero
     private Double properMotionDecError;
 
     @Column(name = "parallax")
-    @Min(Constraints.MOTION_PARALLAX_MIN)
-    @Max(Constraints.MOTION_PARALLAX_MAX)
+//    @Min(Constraints.MOTION_PARALLAX_MIN)
+//    @Max(Constraints.MOTION_PARALLAX_MAX)
     private Double parallax;
 
     @Column(name = "parallax_error")
-    @PositiveOrZero
+//    @PositiveOrZero
     private Double parallaxError;
 
     public boolean isDefined() {

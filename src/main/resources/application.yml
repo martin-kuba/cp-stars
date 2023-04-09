@@ -2,6 +2,8 @@ server:
   port: 8081
 
 spring:
+  application:
+    name: CP Stars
   datasource:
     url: jdbc:postgresql://localhost:5432/cpstars
     username: postgres

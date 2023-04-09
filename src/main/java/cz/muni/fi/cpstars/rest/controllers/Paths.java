@@ -10,6 +10,7 @@ public abstract class Paths {
     // *********************************
     // **   CROSS-ORIGIN PROPERTIES   **
     // *********************************
+    public static final String PUBLIC_IP = "http://147.251.21.135:8081";
     private static final String LOCALHOST = "http://localhost";
     private static final String FRONTEND_PORT = "3000";
 

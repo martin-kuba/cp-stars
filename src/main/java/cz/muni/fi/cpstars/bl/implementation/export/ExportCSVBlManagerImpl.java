@@ -73,6 +73,7 @@ public class ExportCSVBlManagerImpl implements ExportCSVBlManager {
 
 		// if list of stars' identifiers to export is not empty, filter only specified ones
 		// (all stars are exported otherwise)
+
 		if (!exportCsvForm.getStarIdsToExport().isEmpty()) {
 			Set<Long> starIds = new HashSet<>(exportCsvForm.getStarIdsToExport());
 			stars.removeIf(star -> !starIds.contains(star.getId()));
@@ -82,6 +83,7 @@ public class ExportCSVBlManagerImpl implements ExportCSVBlManager {
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
 
 
+		String emptyValue = exportCsvForm.getEmptyValueRepresentation();
 		StringJoiner stringJoiner = new StringJoiner(CSV_DELIMITER);
 		this.getAllColumnNames(exportCsvForm).forEach(stringJoiner::add);
 
@@ -96,17 +98,17 @@ public class ExportCSVBlManagerImpl implements ExportCSVBlManager {
 				// write star general information
 				writer.write(String.join(CSV_DELIMITER, List.of(
 						String.valueOf(star.getId()),
-						star.getConsideredCategoryAffiliationProbabilityFlag().replace("null", ""),
-						String.valueOf(star.getId_2009_A_AND_A_498_961_R()).replace("null", ""),
-						star.getBinarySystemComponent().replace("null", ""),
-						String.valueOf(star.getIcrsRightAscension()).replace("null", ""),
-						String.valueOf(star.getIcrsRightAscensionError()).replace("null", ""),
-						String.valueOf(star.getIcrsDeclination()).replace("null", ""),
-						String.valueOf(star.getIcrsDeclinationError()).replace("null", ""),
-						String.valueOf(star.getGalacticLongitude()).replace("null", ""),
-						String.valueOf(star.getGalacticLatitude()).replace("null", ""),
-						String.valueOf(star.getAlpha()).replace("null", ""),
-						String.valueOf(star.getDelta()).replace("null", "")
+						star.getConsideredCategoryAffiliationProbabilityFlag().replace("null", emptyValue),
+						String.valueOf(star.getId_2009_A_AND_A_498_961_R()).replace("null", emptyValue),
+						star.getBinarySystemComponent().replace("null", emptyValue),
+						String.valueOf(star.getIcrsRightAscension()).replace("null", emptyValue),
+						String.valueOf(star.getIcrsRightAscensionError()).replace("null", emptyValue),
+						String.valueOf(star.getIcrsDeclination()).replace("null", emptyValue),
+						String.valueOf(star.getIcrsDeclinationError()).replace("null", emptyValue),
+						String.valueOf(star.getGalacticLongitude()).replace("null", emptyValue),
+						String.valueOf(star.getGalacticLatitude()).replace("null", emptyValue),
+						String.valueOf(star.getAlpha()).replace("null", emptyValue),
+						String.valueOf(star.getDelta()).replace("null", emptyValue)
 				)));
 
 				// if attributes are requested in export, export them
@@ -128,19 +130,19 @@ public class ExportCSVBlManagerImpl implements ExportCSVBlManager {
 							StarDatasourceAttribute attribute = attributes.get(attributeIndex);
 							if (magnitudeName.equals(attribute.getAttributeDefinition().getName())) {
 								attributeStrings.add(String.join(CSV_DELIMITER, List.of(
-										attribute.getValue().replace("null", "")
+										attribute.getValue().replace("null", emptyValue)
 								)));
 								attributeIndex++;
 							} else {
 								// if names do not match, attribute is missing
-								attributeStrings.add(String.join(CSV_DELIMITER, List.of("")));
+								attributeStrings.add(String.join(CSV_DELIMITER, List.of(emptyValue)));
 							}
 							continue;
 						}
 
 						// if attribute index is not lower than size of attributes list,
 						// there are some attributes left out without values, so write it
-						attributeStrings.add(String.join(CSV_DELIMITER, List.of("")));
+						attributeStrings.add(String.join(CSV_DELIMITER, List.of(emptyValue)));
 					}
 					writer.write(String.join(CSV_DELIMITER, attributeStrings));
 				}
@@ -164,19 +166,19 @@ public class ExportCSVBlManagerImpl implements ExportCSVBlManager {
 							Identifier identifier = identifiers.get(identifierIndex);
 							if (datasourceName.equals(identifier.getDatasource().getName())) {
 								identifierStrings.add(String.join(CSV_DELIMITER, List.of(
-										identifier.getName().replace("null", "")
+										identifier.getName().replace("null", emptyValue)
 								)));
 								identifierIndex++;
 							} else {
 								// if names do not match, identifier is missing
-								identifierStrings.add(String.join(CSV_DELIMITER, List.of("")));
+								identifierStrings.add(String.join(CSV_DELIMITER, List.of(emptyValue)));
 							}
 							continue;
 						}
 
 						// if identifier index is not lower than size of identifiers list,
 						// there are some identifiers left out without values, so write it
-						identifierStrings.add(String.join(CSV_DELIMITER, List.of("")));
+						identifierStrings.add(String.join(CSV_DELIMITER, List.of(emptyValue)));
 					}
 					writer.write(String.join(CSV_DELIMITER, identifierStrings));
 				}
@@ -200,22 +202,22 @@ public class ExportCSVBlManagerImpl implements ExportCSVBlManager {
 							Magnitude magnitude = magnitudes.get(magnitudeIndex);
 							if (magnitudeName.equals(magnitude.getName())) {
 								magnitudeStrings.add(String.join(CSV_DELIMITER, List.of(
-										String.valueOf(magnitude.getValue()).replace("null", ""),
-										String.valueOf(magnitude.getError()).replace("null", ""),
-										String.valueOf(magnitude.getQuality()).replace("null", ""),
-										String.valueOf(magnitude.getUncertaintyFlag()).replace("null", "")
+										String.valueOf(magnitude.getValue()).replace("null", emptyValue),
+										String.valueOf(magnitude.getError()).replace("null", emptyValue),
+										String.valueOf(magnitude.getQuality()).replace("null", emptyValue),
+										String.valueOf(magnitude.getUncertaintyFlag()).replace("null", emptyValue)
 								)));
 								magnitudeIndex++;
 							} else {
 								// if names do not match, magnitude is missing
-								magnitudeStrings.add(String.join(CSV_DELIMITER, List.of("", "", "", "")));
+								magnitudeStrings.add(String.join(CSV_DELIMITER, List.of(emptyValue, emptyValue, emptyValue, emptyValue)));
 							}
 							continue;
 						}
 
 						// if magnitude index is not lower than size of magnitudes list,
 						// there are some magnitudes left out without values, so write it
-						magnitudeStrings.add(String.join(CSV_DELIMITER, List.of("", "", "", "")));
+						magnitudeStrings.add(String.join(CSV_DELIMITER, List.of(emptyValue, emptyValue, emptyValue, emptyValue)));
 					}
 					writer.write(String.join(CSV_DELIMITER, magnitudeStrings));
 				}
@@ -239,24 +241,24 @@ public class ExportCSVBlManagerImpl implements ExportCSVBlManager {
 							Motion motion = motions.get(motionIndex);
 							if (datasourceName.equals(motion.getDatasource().getName())) {
 								motionStrings.add(String.join(CSV_DELIMITER, List.of(
-										String.valueOf(motion.getProperMotionRa()).replace("null", ""),
-										String.valueOf(motion.getProperMotionRaError()).replace("null", ""),
-										String.valueOf(motion.getProperMotionDec()).replace("null", ""),
-										String.valueOf(motion.getProperMotionDecError()).replace("null", ""),
-										String.valueOf(motion.getParallax()).replace("null", ""),
-										String.valueOf(motion.getParallaxError()).replace("null", "")
+										String.valueOf(motion.getProperMotionRa()).replace("null", emptyValue),
+										String.valueOf(motion.getProperMotionRaError()).replace("null", emptyValue),
+										String.valueOf(motion.getProperMotionDec()).replace("null", emptyValue),
+										String.valueOf(motion.getProperMotionDecError()).replace("null", emptyValue),
+										String.valueOf(motion.getParallax()).replace("null", emptyValue),
+										String.valueOf(motion.getParallaxError()).replace("null", emptyValue)
 								)));
 								motionIndex++;
 							} else {
 								// if names do not match, motion is missing
-								motionStrings.add(String.join(CSV_DELIMITER, List.of("", "", "", "", "", "")));
+								motionStrings.add(String.join(CSV_DELIMITER, List.of(emptyValue, emptyValue, emptyValue, emptyValue, emptyValue, emptyValue)));
 							}
 							continue;
 						}
 
 						// if motion index is not lower than size of motions list,
 						// there are some motions left out without values, so write it
-						motionStrings.add(String.join(CSV_DELIMITER, List.of("", "", "", "", "", "")));
+						motionStrings.add(String.join(CSV_DELIMITER, List.of(emptyValue, emptyValue, emptyValue, emptyValue, emptyValue, emptyValue)));
 					}
 					writer.write(String.join(CSV_DELIMITER, motionStrings));
 				}
@@ -280,20 +282,20 @@ public class ExportCSVBlManagerImpl implements ExportCSVBlManager {
 							RadialVelocity radialVelocity = radialVelocities.get(radialVelocityIndex);
 							if (datasourceName.equals(radialVelocity.getDatasource().getName())) {
 								radialVelocityStrings.add(String.join(CSV_DELIMITER, List.of(
-										String.valueOf(radialVelocity.getRadialVelocity()).replace("null", ""),
-										String.valueOf(radialVelocity.getRadialVelocityError()).replace("null", "")
+										String.valueOf(radialVelocity.getRadialVelocity()).replace("null", emptyValue),
+										String.valueOf(radialVelocity.getRadialVelocityError()).replace("null", emptyValue)
 								)));
 								radialVelocityIndex++;
 							} else {
 								// if names do not match, radial velocity is missing
-								radialVelocityStrings.add(String.join(CSV_DELIMITER, List.of("", "")));
+								radialVelocityStrings.add(String.join(CSV_DELIMITER, List.of(emptyValue, emptyValue)));
 							}
 							continue;
 						}
 
 						// if radial velocity index is not lower than size of radial velocities list,
 						// there are some radial velocities left out without values, so write it
-						radialVelocityStrings.add(String.join(CSV_DELIMITER, List.of("", "")));
+						radialVelocityStrings.add(String.join(CSV_DELIMITER, List.of(emptyValue, emptyValue)));
 					}
 					writer.write(String.join(CSV_DELIMITER, radialVelocityStrings));
 				}

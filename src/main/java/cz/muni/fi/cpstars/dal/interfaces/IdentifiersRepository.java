@@ -21,4 +21,8 @@ public interface IdentifiersRepository extends CrudRepository<Identifier, Long> 
             "FROM Identifier i " +
             "WHERE i.star.id=?1")
     List<Identifier> findByStarId(long starId);
+
+    @Query(value = "SELECT DISTINCT i.datasource.name " +
+            "FROM Identifier i")
+    List<String> findAllDatasourceNames();
 }

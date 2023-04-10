@@ -34,4 +34,9 @@ public class MagnitudesBlManagerImpl implements MagnitudesBlManager {
 	public List<Magnitude> getAllMagnitudesForStarId(long starId) {
 		return magnitudeRepository.findAllByStarId(starId);
 	}
+
+	@Override
+	public List<String> getAllMagnitudeNames() {
+		return magnitudeRepository.findAllMagnitudeNames();
+	}
 }

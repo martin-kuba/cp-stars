@@ -34,4 +34,9 @@ public class MotionsBlManagerImpl implements MotionsBlManager {
 	public List<Motion> getAllMotionsForStarId(long starId) {
 		return motionRepository.findAllByStarId(starId);
 	}
+
+	@Override
+	public List<String> getAllMotionDatasourceNames() {
+		return motionRepository.findAllDatasourceNames();
+	}
 }

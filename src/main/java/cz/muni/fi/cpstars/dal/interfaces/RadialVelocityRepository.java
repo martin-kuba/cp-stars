@@ -22,4 +22,9 @@ public interface RadialVelocityRepository extends CrudRepository<RadialVelocity,
             "FROM RadialVelocity r " +
             "WHERE r.star.id=?1")
     List<RadialVelocity> findAllByStarId(long starId);
+
+    @Query(value = "SELECT DISTINCT r.datasource.name " +
+            "FROM RadialVelocity r")
+    List<String> findAllDatasourceNames();
+
 }

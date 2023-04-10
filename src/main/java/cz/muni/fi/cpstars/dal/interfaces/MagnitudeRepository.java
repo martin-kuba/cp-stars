@@ -21,4 +21,8 @@ public interface MagnitudeRepository extends CrudRepository<Magnitude, Long> {
             "FROM Magnitude m " +
             "WHERE m.star.id=?1")
     List<Magnitude> findAllByStarId(long starId);
+
+    @Query(value = "SELECT DISTINCT m.name " +
+            "FROM Magnitude m")
+    List<String> findAllMagnitudeNames();
 }

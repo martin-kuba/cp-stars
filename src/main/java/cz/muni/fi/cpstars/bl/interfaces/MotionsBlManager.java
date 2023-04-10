@@ -27,4 +27,11 @@ public interface MotionsBlManager {
 	 * @return list of motion-related values corresponding to given star
 	 */
 	List<Motion> getAllMotionsForStarId(long starId);
+
+	/**
+	 * Get all unique datasource names of motions stored in the application database.
+	 *
+	 * @return list of datasource names
+	 */
+	List<String> getAllMotionDatasourceNames();
 }

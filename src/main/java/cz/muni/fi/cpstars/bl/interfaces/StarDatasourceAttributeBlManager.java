@@ -27,4 +27,11 @@ public interface StarDatasourceAttributeBlManager {
 	 * @return list of star-datasource attributes corresponding to given star
 	 */
 	List<StarDatasourceAttribute> getAllAttributesForStarId(long starId);
+
+	/**
+	 * Get all unique attribute names (bands) of stars stored in the application database.
+	 *
+	 * @return list of attribute names
+	 */
+	List<String> getAllAttributeNames();
 }

@@ -36,7 +36,7 @@ public class ExtendedStar extends Star {
 				star.getAlpha(),
 				star.getDelta(),
 				star.getMagnitudes(),
-				star.getIdentifier(),
+				star.getIdentifiers(),
 				star.getMotions(),
 				star.getRadialVelocities(),
 				star.getStarDatasourceAttributes()

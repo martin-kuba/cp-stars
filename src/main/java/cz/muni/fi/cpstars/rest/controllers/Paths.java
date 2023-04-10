@@ -35,7 +35,9 @@ public abstract class Paths {
 
     // EXPORT
     public static final String EXPORT = "/export";
-    public static final String FORMAT_TXT = "txt";
+    public static final String FORMAT_CSV = "/csv";
+    public static final String FORMAT_TXT = "/txt";
+    public static final String ALL = "/all";
 
 
     // EXTERNAL SERVICES

@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.servers.ServerVariable;
 import lombok.NonNull;
-import lombok.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -14,8 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-//@EnableJpaRepositories(repositoryBaseClass = SimpleJpaRepository.class)
-//@EnableJpaRepositories(basePackages = "cz.muni.fi.cpstars.dal.interfaces", repositoryImplementationPostfix = "CustomImpl")
+
 @OpenAPIDefinition(
 		servers = {
 				@Server(

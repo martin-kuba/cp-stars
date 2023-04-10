@@ -7,6 +7,7 @@ import cz.muni.fi.cpstars.dal.classes.ExtendedStar;
 import cz.muni.fi.cpstars.dal.classes.StarBasicInfo;
 import cz.muni.fi.cpstars.dal.entities.Star;
 import cz.muni.fi.cpstars.dal.interfaces.StarRepository;
+import cz.muni.fi.cpstars.utils.IterableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,5 +70,10 @@ public class StarsBlManagerImpl implements StarsBlManager {
         ResponseData externalData = astroSearcherConnector.getData(externalIdentifier);
 
         return new ExtendedStar(star, externalData);
+    }
+
+    @Override
+    public List<Star> getStars() {
+        return IterableUtils.convertToList(starRepository.findAll());
     }
 }

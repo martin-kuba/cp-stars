@@ -34,4 +34,9 @@ public class IdentifiersBlManagerImpl implements IdentifiersBlManager {
 	public List<Identifier> getIdentifiersForStarId(long starId) {
 		return identifiersRepository.findByStarId(starId);
 	}
+
+	@Override
+	public List<String> getAllIdentifierDatasourceNames() {
+		return identifiersRepository.findAllDatasourceNames();
+	}
 }

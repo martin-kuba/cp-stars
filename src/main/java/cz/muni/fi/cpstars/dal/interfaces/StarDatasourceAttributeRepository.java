@@ -21,4 +21,8 @@ public interface StarDatasourceAttributeRepository extends CrudRepository<StarDa
             "FROM StarDatasourceAttribute s " +
             "WHERE s.star.id=?1")
     List<StarDatasourceAttribute> findAllByStarId(long starId);
+
+    @Query(value = "SELECT DISTINCT a.attributeDefinition.name " +
+            "FROM StarDatasourceAttribute a")
+    List<String> findAllAttributeNames();
 }

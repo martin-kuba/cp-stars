@@ -27,4 +27,11 @@ public interface IdentifiersBlManager {
 	 * @return list of identifiers corresponding to given star
 	 */
 	List<Identifier> getIdentifiersForStarId(long starId);
+
+	/**
+	 * Get all unique datasource names of identifiers stored in the application database.
+	 *
+	 * @return list of datasource names
+	 */
+	List<String> getAllIdentifierDatasourceNames();
 }

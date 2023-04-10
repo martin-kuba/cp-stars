@@ -8,7 +8,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -96,7 +95,7 @@ public class Star {
     @OneToMany(mappedBy = "star", cascade = {CascadeType.ALL})
     @ToString.Exclude
     @JsonIgnore
-    private List<Identifier> identifier;
+    private List<Identifier> identifiers;
 
     @OneToMany(mappedBy = "star", cascade = {CascadeType.ALL})
     @ToString.Exclude

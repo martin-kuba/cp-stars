@@ -59,4 +59,12 @@ public interface StarsBlManager {
      * @return all information about star with provided ID
      */
     ExtendedStar getExtendedStar(Star star, String externalIdentifier);
+
+
+    /**
+     * Get list of all stars stored in the application database.
+     *
+     * @return list of stars
+     */
+    List<Star> getStars();
 }

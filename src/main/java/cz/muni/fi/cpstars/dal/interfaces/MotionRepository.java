@@ -21,4 +21,8 @@ public interface MotionRepository extends CrudRepository<Motion, Long> {
             "FROM Motion m " +
             "WHERE m.star.id=?1")
     List<Motion> findAllByStarId(long starId);
+
+    @Query(value = "SELECT DISTINCT m.datasource.name " +
+            "FROM Motion m")
+    List<String> findAllDatasourceNames();
 }

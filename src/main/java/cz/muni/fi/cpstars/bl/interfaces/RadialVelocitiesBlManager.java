@@ -27,4 +27,11 @@ public interface RadialVelocitiesBlManager {
 	 * @return list of radial velocities corresponding to given star
 	 */
 	List<RadialVelocity> getAllRadialVelocitiesForStarId(long starId);
+
+	/**
+	 * Get all unique datasource names of radial velocities stored in the application database.
+	 *
+	 * @return list of datasource names
+	 */
+	List<String> getAllRadialVelocityDatasourceNames();
 }

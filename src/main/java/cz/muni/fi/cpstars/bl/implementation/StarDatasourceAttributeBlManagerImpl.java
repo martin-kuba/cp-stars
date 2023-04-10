@@ -35,4 +35,9 @@ public class StarDatasourceAttributeBlManagerImpl implements StarDatasourceAttri
 	public List<StarDatasourceAttribute> getAllAttributesForStarId(long starId) {
 		return starDatasourceAttributeRepository.findAllByStarId(starId);
 	}
+
+	@Override
+	public List<String> getAllAttributeNames() {
+		return starDatasourceAttributeRepository.findAllAttributeNames();
+	}
 }

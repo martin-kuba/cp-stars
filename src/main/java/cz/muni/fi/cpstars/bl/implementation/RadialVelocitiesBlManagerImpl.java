@@ -34,4 +34,9 @@ public class RadialVelocitiesBlManagerImpl implements RadialVelocitiesBlManager 
 	public List<RadialVelocity> getAllRadialVelocitiesForStarId(long starId) {
 		return radialVelocityRepository.findAllByStarId(starId);
 	}
+
+	@Override
+	public List<String> getAllRadialVelocityDatasourceNames() {
+		return radialVelocityRepository.findAllDatasourceNames();
+	}
 }

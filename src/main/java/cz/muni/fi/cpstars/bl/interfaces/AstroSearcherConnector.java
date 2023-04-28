@@ -1,6 +1,7 @@
 package cz.muni.fi.cpstars.bl.interfaces;
 
 import astrosearcher.classes.ResponseData;
+import cz.muni.fi.cpstars.bl.classes.LightCurveMeasurement;
 
 import java.util.List;
 
@@ -28,4 +29,31 @@ public interface AstroSearcherConnector {
      * @return data from AstroSearcher
      */
     ResponseData getData(String baseIdentifier);
+
+    /**
+     * Return data retrieved from AstroSearcher general search, e.g. Mast, Simbad, Vizier combined.
+     *
+     * @param baseIdentifier basic identifier used for query
+     * @param queryMast specifies query type for MAST
+     *                  0 -> no query (skip)
+     *                  1 -> query for data
+     * @param queryVizier specifies query type for Vizier
+     *                    0 -> no query (skip)
+     *                    1 -> query for data
+     *                    2 -> query for metadata
+     * @param querySimbad specifies query type for Simbad
+     *                    0 -> no query (skip)
+     *                    1 -> query for data
+     * @return data from AstroSearcher
+     */
+    ResponseData getData(String baseIdentifier, int queryMast, int queryVizier, int querySimbad);
+
+    /**
+     * Return data retrieved from AstroSearcher containing light curve measurements
+     * of the specified star.
+     *
+     * @param baseIdentifier star's identifier
+     * @return list of light curve measurements
+     */
+    List<LightCurveMeasurement> getStarLightCurveMeasurements(String baseIdentifier);
 }

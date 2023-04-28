@@ -20,7 +20,7 @@
 	<repositories>
 		<!-- local repository for libraries that are not Mavenized -->
 		<repository>
-			<id>my-local-repository</id>
+			<id>local-repository</id>
 			<url>file://${basedir}/local-repository</url>
 		</repository>
 	</repositories>

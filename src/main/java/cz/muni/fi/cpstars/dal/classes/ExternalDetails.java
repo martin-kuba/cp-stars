@@ -2,6 +2,7 @@ package cz.muni.fi.cpstars.dal.classes;
 
 import astrosearcher.classes.ResponseData;
 import astrosearcher.classes.simbad.SimbadData;
+import astrosearcher.classes.vizier.VizierTable;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.muni.fi.cpstars.dal.entities.Star;
 import cz.muni.fi.cpstars.utils.StringUtils;
@@ -9,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,6 +29,8 @@ public class ExternalDetails {
 	private String effectiveTemperatureUnit;
 	private Double redshift;
 
+	private List<VizierTable> vizierTables;
+
 	public ExternalDetails(ResponseData externalData) {
 
 		// if present, fetch Simbad data
@@ -44,6 +48,11 @@ public class ExternalDetails {
 
 			// effective temperature
 			this.setEffectiveTemperatureValues(simbadData.getEffectiveTemperature());
+		}
+
+		// if present, fetch Vizier data
+		if (externalData.containsVizierResponse()) {
+			this.vizierTables = externalData.getVizierResponse().getTables();
 		}
 	}
 

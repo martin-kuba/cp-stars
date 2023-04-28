@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-
+// defaultValue = "147.251.21.135"
 @OpenAPIDefinition(
 		servers = {
 				@Server(
@@ -23,14 +23,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 								@ServerVariable(
 										name = "server",
 										description = "Server URL address",
-										defaultValue = "147.251.21.135"
+										defaultValue = "localhost"
 								)
 						}
 				)
 		},
 		info = @Info(
 			title = "Chemically Peculiar Stars Database OpenAPI definitions",
-			version = "0.0.1"
+			version = "1.0.0"
 		)
 )
 @EnableJpaRepositories

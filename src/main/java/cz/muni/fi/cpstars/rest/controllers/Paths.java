@@ -43,5 +43,9 @@ public abstract class Paths {
     // EXTERNAL SERVICES
     public static final String EXTERNAL_SERVICES = "/external";
     public static final String IDENTIFIERS = "/identifiers";
-    public static final String ASTROSEARCHER_DATA = "/astrosearcher";
+    public static final String ASTROSEARCHER = "/astrosearcher";
+    public static final String LIGHT_CURVE = "/light-curve";
+
+    public static final String ASTROSEARCHER_SIMBAD = ASTROSEARCHER + "/simbad";
+    public static final String ASTROSEARCHER_VIZIER_METADATA = ASTROSEARCHER + "/vizier-metadata";
 }

@@ -22,3 +22,8 @@ spring:
 springdoc:
   api-docs:
     path: /api/docs
+
+paths:
+  files:
+    spectra: D:/Skola/diplomova-praca/spectra/
+    lightCurves: D:\Skola\diplomova-praca\light-curves\

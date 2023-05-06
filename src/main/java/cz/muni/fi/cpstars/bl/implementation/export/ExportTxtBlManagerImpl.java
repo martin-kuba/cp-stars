@@ -4,7 +4,7 @@ package cz.muni.fi.cpstars.bl.implementation.export;
 import cz.muni.fi.cpstars.bl.implementation.StarsBlManagerImpl;
 import cz.muni.fi.cpstars.bl.interfaces.export.ExportTxtBlManager;
 import cz.muni.fi.cpstars.bl.interfaces.StarsBlManager;
-import cz.muni.fi.cpstars.dal.classes.ExtendedStar;
+import cz.muni.fi.cpstars.dal.implementation.classes.ExtendedStar;
 import cz.muni.fi.cpstars.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,7 +66,7 @@ public class ExportTxtBlManagerImpl implements ExportTxtBlManager {
 		StringBuilder starInfo = new StringBuilder();
 
 		starInfo.append("+---------------------------------------------+\n");
-		starInfo.append(StringUtils.format("| Renson ID:   %-30s |\n", defaultValueIfNull, star.getId_2009_A_AND_A_498_961_R()));
+		starInfo.append(StringUtils.format("| Renson ID:   %-30s |\n", defaultValueIfNull, star.getRenson()));
 		starInfo.append("|                                             |\n");
 		starInfo.append(StringUtils.format("| Affiliation prob:  %-24s |\n", defaultValueIfNull,Objects.requireNonNullElse(star.getConsideredCategoryAffiliationProbabilityFlag(), "")));
 		starInfo.append(StringUtils.format("| Binary sys. comp:  %-24s |\n", defaultValueIfNull,Objects.requireNonNullElse(star.getBinarySystemComponent(), "")));

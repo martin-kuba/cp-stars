@@ -42,22 +42,15 @@ public class ConnectionUtilsImpl implements ConnectionUtils {
             builder.setPrettyPrinting();
             Gson gson = builder.create();
 
-//            System.out.println("RESPONSE: " + response.body());
             return gson.fromJson(response.body(), responseDataType);
-
-
-//            return mapper.readValue(response.body(), responseDataType);
         } catch (JsonMappingException jme) {
-//            System.out.println("MAPPING EXCEPTION");
             jme.printStackTrace();
         } catch (JsonProcessingException jpe) {
-//            System.out.println("PROCESSING EXCEPTION");
             jpe.printStackTrace();
         }
         catch (IOException | InterruptedException ignored) {
         }
 
-//        System.out.println("ERROR OCCURRED");
         // if any problem occured, try to create empty-constructor instance instead
         try {
             return responseDataType.getConstructor().newInstance();

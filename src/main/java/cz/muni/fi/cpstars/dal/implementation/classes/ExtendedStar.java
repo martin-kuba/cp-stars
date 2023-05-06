@@ -1,4 +1,4 @@
-package cz.muni.fi.cpstars.dal.classes;
+package cz.muni.fi.cpstars.dal.implementation.classes;
 
 import astrosearcher.classes.ResponseData;
 import cz.muni.fi.cpstars.dal.entities.Star;
@@ -25,7 +25,7 @@ public class ExtendedStar extends Star {
 		super(
 				star.getId(),
 				star.getConsideredCategoryAffiliationProbabilityFlag(),
-				star.getId_2009_A_AND_A_498_961_R(),
+				star.getRenson(),
 				star.getBinarySystemComponent(),
 				star.getIcrsRightAscension(),
 				star.getIcrsRightAscensionError(),

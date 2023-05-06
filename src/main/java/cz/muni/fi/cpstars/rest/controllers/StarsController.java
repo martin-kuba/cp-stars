@@ -6,14 +6,20 @@ import cz.muni.fi.cpstars.bl.implementation.MotionsBlManagerImpl;
 import cz.muni.fi.cpstars.bl.implementation.RadialVelocitiesBlManagerImpl;
 import cz.muni.fi.cpstars.bl.implementation.StarDatasourceAttributeBlManagerImpl;
 import cz.muni.fi.cpstars.bl.implementation.StarsBlManagerImpl;
+import cz.muni.fi.cpstars.bl.implementation.classes.LightCurveMeasurement;
+import cz.muni.fi.cpstars.bl.implementation.classes.SpectrumMeasurement;
+import cz.muni.fi.cpstars.bl.implementation.readers.lightcurves.StarLightCurvesReaderImpl;
+import cz.muni.fi.cpstars.bl.implementation.readers.spectra.StarSpectraReaderImpl;
 import cz.muni.fi.cpstars.bl.interfaces.IdentifiersBlManager;
 import cz.muni.fi.cpstars.bl.interfaces.MagnitudesBlManager;
 import cz.muni.fi.cpstars.bl.interfaces.MotionsBlManager;
 import cz.muni.fi.cpstars.bl.interfaces.RadialVelocitiesBlManager;
 import cz.muni.fi.cpstars.bl.interfaces.StarDatasourceAttributeBlManager;
 import cz.muni.fi.cpstars.bl.interfaces.StarsBlManager;
-import cz.muni.fi.cpstars.dal.classes.ExtendedStar;
-import cz.muni.fi.cpstars.dal.classes.StarBasicInfo;
+import cz.muni.fi.cpstars.bl.interfaces.readers.lightcurves.StarLightCurvesReader;
+import cz.muni.fi.cpstars.bl.interfaces.readers.spectra.StarSpectraReader;
+import cz.muni.fi.cpstars.dal.implementation.classes.ExtendedStar;
+import cz.muni.fi.cpstars.dal.implementation.classes.StarBasicInfo;
 import cz.muni.fi.cpstars.dal.entities.Identifier;
 import cz.muni.fi.cpstars.dal.entities.Magnitude;
 import cz.muni.fi.cpstars.dal.entities.Motion;
@@ -45,6 +51,8 @@ public class StarsController {
     private final MagnitudesBlManager magnitudesBlManager;
     private final MotionsBlManager motionsBlManager;
     private final RadialVelocitiesBlManager radialVelocitiesBlManager;
+    private final StarLightCurvesReader lightCurvesReader;
+    private final StarSpectraReader spectraReader;
     private final StarDatasourceAttributeBlManager starDatasourceAttributeBlManager;
     private final StarsBlManager starsBlManager;
 
@@ -55,6 +63,8 @@ public class StarsController {
             MagnitudesBlManagerImpl magnitudesBlManagerImpl,
             MotionsBlManagerImpl motionsBlManagerImpl,
             RadialVelocitiesBlManagerImpl radialVelocitiesBlManagerImpl,
+            StarLightCurvesReaderImpl starLightCurvesReaderImpl,
+            StarSpectraReaderImpl starSpectraReaderImpl,
             StarDatasourceAttributeBlManagerImpl starDatasourceAttributeBlManagerImpl,
             StarsBlManagerImpl starsBlManagerImpl) {
         this.dataInitializer = dataInitializer;
@@ -62,6 +72,8 @@ public class StarsController {
         this.magnitudesBlManager = magnitudesBlManagerImpl;
         this.motionsBlManager = motionsBlManagerImpl;
         this.radialVelocitiesBlManager = radialVelocitiesBlManagerImpl;
+        this.lightCurvesReader = starLightCurvesReaderImpl;
+        this.spectraReader = starSpectraReaderImpl;
         this.starDatasourceAttributeBlManager = starDatasourceAttributeBlManagerImpl;
         this.starsBlManager = starsBlManagerImpl;
     }
@@ -99,14 +111,36 @@ public class StarsController {
     }
 
     @Operation(
+            summary = "Get all information about the star specified by provided Renson identifier.",
+            description = """
+                    Response contains information ONLY from the appliaction database.
+                    Information obtained include:
+                    - coordinates (including errors for RA and Dec)
+                    - CP-stars database ID
+                    - Renson ID
+                    - binary system component flag
+                    - considered category affiliation flag"""
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Extended Star details found and returned."
+    )
+    @GetMapping(Paths.CP_STARS_DATABASE_RENSON_PARTIAL + "/{id}")
+    public Star getStarByRensonId(@PathVariable String id) {
+        return starsBlManager.getStarByRensonId(id);
+    }
+
+    @Operation(
             summary = "Get all information about specified star.",
             description = """
-                    Response contains exhaustive information ONLY from the appliaction database.
+                    Response contains information ONLY from the appliaction database.
                     Information obtained include:
-                    - coordinates
-                    - identifier
-                    - photometry
-                    - proper motions and parallaxes"""
+                    - coordinates (including errors for RA and Dec)
+                    - CP-stars database ID
+                    - Renson ID
+                    - binary system component flag
+                    - considered category affiliation flag"""
+
     )
     @ApiResponse(
             responseCode = "200",
@@ -191,6 +225,80 @@ public class StarsController {
     @GetMapping("/{starId}" + Paths.CP_STARS_DATABASE_IDENTIFIERS_PARTIAL)
     public List<Identifier> getStarIdentifiers(@PathVariable long starId) {
         return identifiersBlManager.getIdentifiersForStarId(starId);
+    }
+
+    @Operation(
+            summary = "Get light curve measurements of star (specified by CP-Stars identifier) from corresponding file.",
+            description = """
+                    Response contains list of light curve measurements obtained from corresponding file.
+                    Each measurements contains:
+                        - time
+                        - value
+                        - error
+                    """
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Light curve measurements obtained from external sources."
+    )
+    @GetMapping(Paths.LIGHT_CURVES + "/{id}")
+    public List<LightCurveMeasurement> getStarLightCurveMeasurements(@PathVariable int id) {
+        return lightCurvesReader.readStellarLightCurves(id);
+    }
+
+    @Operation(
+            summary = "Get light curve measurements of star (specified by Renson identifier) from corresponding file.",
+            description = """
+                    Response contains list of light curve measurements obtained from corresponding file.
+                    Each measurements contains:
+                        - time
+                        - value
+                        - error
+                    """
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Light curve measurements obtained from external sources."
+    )
+    @GetMapping(Paths.LIGHT_CURVES + "/{rensonId}" + Paths.CP_STARS_DATABASE_RENSON_PARTIAL)
+    public List<LightCurveMeasurement> getStarLightCurveMeasurementsByRenson(@PathVariable String rensonId) {
+        return lightCurvesReader.readStellarLightCurvesByRenson(rensonId);
+    }
+
+    @Operation(
+            summary = "Get spectra measurements of star (specified by CP-Stars identifier) from corresponding file.",
+            description = """
+                    Response contains list of spectra measurements obtained from corresponding file.
+                    Each measurements contains:
+                        - wavelength
+                        - flux
+                    """
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Light curve measurements obtained from external sources."
+    )
+    @GetMapping(Paths.SPECTRA + "/{id}")
+    public List<SpectrumMeasurement> getStarSpectraMeasurements(@PathVariable int id) {
+        return spectraReader.readStellarSpectra(id);
+    }
+
+    @Operation(
+            summary = "Get spectra measurements of star (specified by Renson identifier) from corresponding file.",
+            description = """
+                    Response contains list of spectra measurements obtained from corresponding file.
+                    Each measurements contains:
+                        - wavelength
+                        - flux
+                    """
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Light curve measurements obtained from external sources."
+    )
+    @GetMapping(Paths.SPECTRA + "/{rensonId}" + Paths.CP_STARS_DATABASE_RENSON_PARTIAL)
+    public List<SpectrumMeasurement> getStarSpectraMeasurementsByRenson(@PathVariable String rensonId) {
+        return spectraReader.readStellarSpectraByRenson(rensonId);
     }
 
     private void reload() {

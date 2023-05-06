@@ -1,4 +1,4 @@
-package cz.muni.fi.cpstars.dal.classes;
+package cz.muni.fi.cpstars.dal.implementation.classes;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ import lombok.Setter;
 public class StarBasicInfo {
     @NotNull
     public long id;
-    private String id_2009_A_AND_A_498_961_R;
+    private String renson;
     private String consideredCategoryAffiliationProbabilityFlag;
     private String binarySystemComponent;
     public Double icrsRightAscension;

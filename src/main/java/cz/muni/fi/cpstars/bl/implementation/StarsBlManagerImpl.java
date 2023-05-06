@@ -3,8 +3,8 @@ package cz.muni.fi.cpstars.bl.implementation;
 import astrosearcher.classes.ResponseData;
 import cz.muni.fi.cpstars.bl.interfaces.AstroSearcherConnector;
 import cz.muni.fi.cpstars.bl.interfaces.StarsBlManager;
-import cz.muni.fi.cpstars.dal.classes.ExtendedStar;
-import cz.muni.fi.cpstars.dal.classes.StarBasicInfo;
+import cz.muni.fi.cpstars.dal.implementation.classes.ExtendedStar;
+import cz.muni.fi.cpstars.dal.implementation.classes.StarBasicInfo;
 import cz.muni.fi.cpstars.dal.entities.Star;
 import cz.muni.fi.cpstars.dal.interfaces.StarRepository;
 import cz.muni.fi.cpstars.utils.IterableUtils;
@@ -41,6 +41,12 @@ public class StarsBlManagerImpl implements StarsBlManager {
         return found == null ? new Star() : found;
     }
 
+    @Override
+    public Star getStarByRensonId(String id) {
+        Star found = starRepository.findByRenson(id);
+        return found == null ? new Star() : found;
+    }
+
 
     @Override
     public ExtendedStar getExtendedStar(long id) {
@@ -50,7 +56,7 @@ public class StarsBlManagerImpl implements StarsBlManager {
             return new ExtendedStar();
         }
 
-        return getExtendedStar(found, "Renson " + found.getId_2009_A_AND_A_498_961_R());
+        return getExtendedStar(found, "Renson " + found.getRenson());
     }
 
     @Override

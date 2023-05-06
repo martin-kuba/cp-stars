@@ -1,4 +1,4 @@
-package cz.muni.fi.cpstars.bl.classes;
+package cz.muni.fi.cpstars.bl.implementation.classes;
 
 import cz.muni.fi.cpstars.dal.entities.Star;
 import lombok.Data;

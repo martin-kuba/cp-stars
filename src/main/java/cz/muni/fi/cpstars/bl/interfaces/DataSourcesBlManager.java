@@ -1,6 +1,6 @@
 package cz.muni.fi.cpstars.bl.interfaces;
 
-import cz.muni.fi.cpstars.dal.classes.DataSourceBasicInfo;
+import cz.muni.fi.cpstars.dal.implementation.classes.DataSourceBasicInfo;
 import cz.muni.fi.cpstars.dal.entities.DataSource;
 
 import java.util.List;

@@ -99,7 +99,7 @@ public class ExportCSVBlManagerImpl implements ExportCSVBlManager {
 				writer.write(String.join(CSV_DELIMITER, List.of(
 						String.valueOf(star.getId()),
 						star.getConsideredCategoryAffiliationProbabilityFlag().replace("null", emptyValue),
-						String.valueOf(star.getId_2009_A_AND_A_498_961_R()).replace("null", emptyValue),
+						String.valueOf(star.getRenson()).replace("null", emptyValue),
 						star.getBinarySystemComponent().replace("null", emptyValue),
 						String.valueOf(star.getIcrsRightAscension()).replace("null", emptyValue),
 						String.valueOf(star.getIcrsRightAscensionError()).replace("null", emptyValue),

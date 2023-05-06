@@ -1,10 +1,10 @@
 package cz.muni.fi.cpstars.rest.controllers;
 
 
-import cz.muni.fi.cpstars.bl.classes.LightCurveMeasurement;
+import cz.muni.fi.cpstars.bl.implementation.classes.LightCurveMeasurement;
 import cz.muni.fi.cpstars.bl.implementation.AstroSearcherConnectorImpl;
 import cz.muni.fi.cpstars.bl.interfaces.AstroSearcherConnector;
-import cz.muni.fi.cpstars.dal.classes.ExternalDetails;
+import cz.muni.fi.cpstars.dal.implementation.classes.ExternalDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,27 +44,6 @@ public class ExternalServicesController {
     @GetMapping(Paths.IDENTIFIERS + "/{name}")
     public List<String> getIdentifiers(@PathVariable String name) {
         return astroSearcherConnector.getAliases(name);
-    }
-
-
-    @Operation(
-            summary = "Get light curve measurements of star from external sources (AstroSearcher).",
-            description = """
-                    Response contains list of light curve measurements obtained from AstroSearcher application.
-                    Each measurements contains:
-                        - time
-                        - value
-                        - error
-                                        
-                    IMPORTANT: Querying external sources may take some time."""
-    )
-    @ApiResponse(
-            responseCode = "200",
-            description = "Light curve measurements obtained from external sources."
-    )
-    @GetMapping(Paths.LIGHT_CURVE + "/{name}")
-    public List<LightCurveMeasurement> getStarLightCurveMeasurements(@PathVariable String name) {
-        return astroSearcherConnector.getStarLightCurveMeasurements(name);
     }
 
     @Operation(

@@ -1,6 +1,6 @@
 package cz.muni.fi.cpstars.dal.interfaces;
 
-import cz.muni.fi.cpstars.dal.classes.DataSourceBasicInfo;
+import cz.muni.fi.cpstars.dal.implementation.classes.DataSourceBasicInfo;
 import cz.muni.fi.cpstars.dal.entities.DataSource;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -24,7 +24,7 @@ public interface DataSourceRepository extends CrudRepository<DataSource, Long> {
 
     DataSource findByName(String name);
 
-    @Query(value = "SELECT new cz.muni.fi.cpstars.dal.classes.DataSourceBasicInfo(" + DATASOURCE_BASIC_INFO_SELECT + ") " +
+    @Query(value = "SELECT new cz.muni.fi.cpstars.dal.implementation.classes.DataSourceBasicInfo(" + DATASOURCE_BASIC_INFO_SELECT + ") " +
             "FROM DataSource d")
     List<DataSourceBasicInfo> loadBasicInfo();
 }

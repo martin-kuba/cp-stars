@@ -239,7 +239,7 @@ public class PreparationMethods {
         Map<String, Integer> columnsIndices = loadMethodInfo.getColumnsIndices();
 
         star.setConsideredCategoryAffiliationProbabilityFlag(columns.get(columnsIndices.get(CSVColumnNames.STAR_CONSIDERED_CATEGORY_AFFILIATION_PROBABILITY_FLAG)));
-        star.setId_2009_A_AND_A_498_961_R(columns.get(columnsIndices.get(CSVColumnNames.STAR_ID_2009_A_AND_A_498_961_R)));
+        star.setRenson(columns.get(columnsIndices.get(CSVColumnNames.STAR_ID_2009_A_AND_A_498_961_R)));
         star.setBinarySystemComponent(columns.get(columnsIndices.get(CSVColumnNames.STAR_BINARY_SYSTEM_COMPONENT)));
         star.setAlpha(columns.get(columnsIndices.get(CSVColumnNames.STAR_COORDINATE_ALPHA)));
         star.setDelta(columns.get(columnsIndices.get(CSVColumnNames.STAR_COORDINATE_DELTA)));

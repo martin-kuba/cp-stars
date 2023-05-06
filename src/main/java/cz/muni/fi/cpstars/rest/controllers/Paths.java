@@ -29,8 +29,12 @@ public abstract class Paths {
     public static final String CP_STARS_DATABASE_MAGNITUDES_PARTIAL = "/magnitudes";
     public static final String CP_STARS_DATABASE_MOTIONS_PARTIAL = "/motions";
     public static final String CP_STARS_DATABASE_RADIAL_VELOCITIES_PARTIAL = "/radialvelocities";
+    public static final String CP_STARS_DATABASE_RENSON_PARTIAL = "/renson";
     public static final String CP_STARS_DATABASE_STAR_DATASOURCE_ATTRIBUTES_PARTIAL = "/stardatasourceattributes";
     public static final String CP_STARS_DATASOURCES = "/datasources";
+
+    public static final String LIGHT_CURVES = "/light-curves";
+    public static final String SPECTRA = "/spectra";
 
 
     // EXPORT
@@ -44,7 +48,6 @@ public abstract class Paths {
     public static final String EXTERNAL_SERVICES = "/external";
     public static final String IDENTIFIERS = "/identifiers";
     public static final String ASTROSEARCHER = "/astrosearcher";
-    public static final String LIGHT_CURVE = "/light-curve";
 
     public static final String ASTROSEARCHER_SIMBAD = ASTROSEARCHER + "/simbad";
     public static final String ASTROSEARCHER_VIZIER_METADATA = ASTROSEARCHER + "/vizier-metadata";

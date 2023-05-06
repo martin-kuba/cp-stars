@@ -1,4 +1,4 @@
-package cz.muni.fi.cpstars.dal.classes;
+package cz.muni.fi.cpstars.dal.implementation.classes;
 
 
 import cz.muni.fi.cpstars.dal.Constraints;

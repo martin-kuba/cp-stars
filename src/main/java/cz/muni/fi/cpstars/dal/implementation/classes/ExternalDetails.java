@@ -1,4 +1,4 @@
-package cz.muni.fi.cpstars.dal.classes;
+package cz.muni.fi.cpstars.dal.implementation.classes;
 
 import astrosearcher.classes.ResponseData;
 import astrosearcher.classes.simbad.SimbadData;

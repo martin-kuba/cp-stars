@@ -1,6 +1,6 @@
 package cz.muni.fi.cpstars.dal.interfaces;
 
-import cz.muni.fi.cpstars.dal.classes.StarBasicInfo;
+import cz.muni.fi.cpstars.dal.implementation.classes.StarBasicInfo;
 import cz.muni.fi.cpstars.dal.entities.Star;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -17,7 +17,7 @@ public interface StarRepository extends CrudRepository<Star, Long> {
 //public interface StarRepository extends CrudRepository<Star, Long>, CustomStarRepository {
 
     String STAR_BASIC_INFO_SELECT = "s.id, " +
-            "s.id_2009_A_AND_A_498_961_R, " +
+            "s.renson, " +
             "s.consideredCategoryAffiliationProbabilityFlag, " +
             "s.binarySystemComponent, " +
             "s.icrsDeclination, " +
@@ -27,8 +27,10 @@ public interface StarRepository extends CrudRepository<Star, Long> {
 
     Star findById(long id);
 
+    Star findByRenson(String rensonId);
+
     @Query(value = "" +
-            "SELECT new cz.muni.fi.cpstars.dal.classes.StarBasicInfo(" + STAR_BASIC_INFO_SELECT + ") " +
+            "SELECT new cz.muni.fi.cpstars.dal.implementation.classes.StarBasicInfo(" + STAR_BASIC_INFO_SELECT + ") " +
             "FROM Star s")
     List<StarBasicInfo> findAllStarsBasicInfo();
 }

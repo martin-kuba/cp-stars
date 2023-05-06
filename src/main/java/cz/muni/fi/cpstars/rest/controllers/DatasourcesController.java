@@ -3,7 +3,7 @@ package cz.muni.fi.cpstars.rest.controllers;
 
 import cz.muni.fi.cpstars.bl.implementation.DataSourcesBlManagerImpl;
 import cz.muni.fi.cpstars.bl.interfaces.DataSourcesBlManager;
-import cz.muni.fi.cpstars.dal.classes.DataSourceBasicInfo;
+import cz.muni.fi.cpstars.dal.implementation.classes.DataSourceBasicInfo;
 import cz.muni.fi.cpstars.dal.entities.DataSource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

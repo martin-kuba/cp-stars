@@ -1,4 +1,4 @@
-package cz.muni.fi.cpstars.bl.classes.astrosearcher;
+package cz.muni.fi.cpstars.bl.implementation.classes.astrosearcher;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

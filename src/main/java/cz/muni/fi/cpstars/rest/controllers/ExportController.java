@@ -90,7 +90,6 @@ public class ExportController {
 	)
 	@GetMapping(value = Paths.FORMAT_CSV + Paths.ALL)
 	public ResponseEntity<byte[]> downloadStarsCSV() {
-		System.out.println("Default");
 		return downloadStarsCSV(new ExportCsvForm());
 	}
 

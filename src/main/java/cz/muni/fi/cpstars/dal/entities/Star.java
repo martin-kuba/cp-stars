@@ -45,7 +45,7 @@ public class Star {
 
     @Column(name = "id_2009_A_and_A_498_961_R", length = Constraints.STAR_ID_2009_A_AND_A_498_961_R_MAX_LENGTH)
     @Size(max = Constraints.STAR_ID_2009_A_AND_A_498_961_R_MAX_LENGTH)
-    private String id_2009_A_AND_A_498_961_R;
+    private String renson;
 
     @Column(name = "binary_system_component", length = Constraints.STAR_FLAG_BINARY_SYSTEM_COMPONENT_MAX_LENGTH)
     @Size(max = Constraints.STAR_FLAG_BINARY_SYSTEM_COMPONENT_MAX_LENGTH)

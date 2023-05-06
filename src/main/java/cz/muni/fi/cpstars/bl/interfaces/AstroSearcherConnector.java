@@ -1,7 +1,7 @@
 package cz.muni.fi.cpstars.bl.interfaces;
 
 import astrosearcher.classes.ResponseData;
-import cz.muni.fi.cpstars.bl.classes.LightCurveMeasurement;
+import cz.muni.fi.cpstars.bl.implementation.classes.LightCurveMeasurement;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package cz.muni.fi.cpstars.bl.interfaces;
 
-import cz.muni.fi.cpstars.dal.classes.ExtendedStar;
-import cz.muni.fi.cpstars.dal.classes.StarBasicInfo;
+import cz.muni.fi.cpstars.dal.implementation.classes.ExtendedStar;
+import cz.muni.fi.cpstars.dal.implementation.classes.StarBasicInfo;
 import cz.muni.fi.cpstars.dal.entities.Star;
 
 import java.util.List;
@@ -21,12 +21,20 @@ public interface StarsBlManager {
     List<StarBasicInfo> getAllStarsBasicInfo();
 
     /**
-     * Retrieve detailed information about specific star including fetched external data.
+     * Retrieve detailed information about specific star.
      *
      * @param id star's id
      * @return information about star with provided ID
      */
     Star getStar(long id);
+
+    /**
+     * Retrieve detailed information about specific star (specified by provided Renson identifier).
+     *
+     * @param id star's Renson identifier
+     * @return information about star with provided Renson identifier
+     */
+    Star getStarByRensonId(String id);
 
     /**
      * Retrieve detailed information (only from the application database) about specific star.

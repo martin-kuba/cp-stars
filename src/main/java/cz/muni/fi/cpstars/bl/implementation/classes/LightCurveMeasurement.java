@@ -1,4 +1,4 @@
-package cz.muni.fi.cpstars.bl.classes;
+package cz.muni.fi.cpstars.bl.implementation.classes;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

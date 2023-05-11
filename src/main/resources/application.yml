@@ -25,5 +25,5 @@ springdoc:
 
 paths:
   files:
-    spectra: D:/Skola/diplomova-praca/spectra/
-    lightCurves: D:\Skola\diplomova-praca\light-curves\
+    spectra: files/spectra/
+    lightCurves: files/light-curves

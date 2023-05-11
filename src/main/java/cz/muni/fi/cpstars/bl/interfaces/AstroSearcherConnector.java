@@ -47,13 +47,4 @@ public interface AstroSearcherConnector {
      * @return data from AstroSearcher
      */
     ResponseData getData(String baseIdentifier, int queryMast, int queryVizier, int querySimbad);
-
-    /**
-     * Return data retrieved from AstroSearcher containing light curve measurements
-     * of the specified star.
-     *
-     * @param baseIdentifier star's identifier
-     * @return list of light curve measurements
-     */
-    List<LightCurveMeasurement> getStarLightCurveMeasurements(String baseIdentifier);
 }

@@ -13,5 +13,4 @@ import lombok.Data;
 public class LightCurveMeasurement {
 	double time;
 	double value;
-	double error;
 }

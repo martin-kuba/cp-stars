@@ -3,8 +3,7 @@ package cz.muni.fi.cpstars.dal.implementation.classes;
 import astrosearcher.classes.ResponseData;
 import astrosearcher.classes.simbad.SimbadData;
 import astrosearcher.classes.vizier.VizierTable;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import cz.muni.fi.cpstars.dal.entities.Star;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.muni.fi.cpstars.utils.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +22,8 @@ import java.util.regex.Pattern;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExternalDetails {
+
+	@JsonIgnore
 	private final String EFFECTIVE_TEMPERATURE_VALUES_REGEX = "(\\d*)\\s*(\\[\\s*[a-zA-Z]*\\s*\\])?";
 
 	private Double effectiveTemperature;

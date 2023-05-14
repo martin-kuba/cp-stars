@@ -28,4 +28,4 @@ paths:
   # in case non-resource path should be used, below configuration is used instead to locate data
   files:
     spectra: files/spectra/
-    lightCurves: files/light-curves
+    lightCurves: files/light-curves/

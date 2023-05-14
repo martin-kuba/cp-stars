@@ -3,18 +3,20 @@ package cz.muni.fi.cpstars.bl.implementation.readers.lightcurves;
 
 import cz.muni.fi.cpstars.bl.implementation.StarsBlManagerImpl;
 import cz.muni.fi.cpstars.bl.implementation.classes.LightCurveMeasurement;
-import cz.muni.fi.cpstars.bl.implementation.classes.SpectrumMeasurement;
 import cz.muni.fi.cpstars.bl.interfaces.StarsBlManager;
 import cz.muni.fi.cpstars.bl.interfaces.readers.lightcurves.StarLightCurvesReader;
 import cz.muni.fi.cpstars.dal.entities.Star;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -29,9 +31,13 @@ import java.util.List;
 @Service
 public class StarLightCurvesReaderImpl implements StarLightCurvesReader {
 
-
 	@Value("${paths.files.lightCurves}")
 	private String lightCurvesDirectoryPath;
+
+	private static final String LIGHT_CURVES_RESOURCES_PATH = "files/light-curves/";
+
+	@Value("${paths.useResources}")
+	private boolean useResources;
 
 	private static final String fileFormat = ".txt";
 
@@ -40,7 +46,6 @@ public class StarLightCurvesReaderImpl implements StarLightCurvesReader {
 
 	private static final int TIME_LINE_INDEX = 0;
 	private static final int VALUE_LINE_INDEX = 1;
-	private static final int ERROR_LINE_INDEX = 2;
 
 	private final StarsBlManager starsBlManager;
 
@@ -65,6 +70,79 @@ public class StarLightCurvesReaderImpl implements StarLightCurvesReader {
 
 	@Override
 	public List<LightCurveMeasurement> readStellarLightCurvesByRenson(String rensonId) {
+		return useResources
+				? readStellarLightCurveFromResourcesByRenson(rensonId)
+				: readStellarLightCurveFromFileSystemByRenson(rensonId);
+	}
+
+	// **************************
+	// **   PRIVATE  METHODS   **
+	// **************************
+
+	/**
+	 * Read stellar light curve data from resources folder located inside the project's structure.
+	 * Resources are obtained using regex created from the provided Renson identifier.
+	 *
+	 * @param rensonId Renson identifier
+	 * @return list of light curve measurements.
+	 */
+	private List<LightCurveMeasurement> readStellarLightCurveFromResourcesByRenson(String rensonId) {
+		List<LightCurveMeasurement> lightCurveMeasurements = new ArrayList<>();
+		BufferedReader bufferedReader;
+
+
+		PathMatchingResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
+
+		String lightCurveFileNameRegex = "*_R" + rensonId + fileFormat;
+		Resource[] resources;
+		try {
+			resources = resourcePatternResolver.getResources(LIGHT_CURVES_RESOURCES_PATH + lightCurveFileNameRegex);
+		} catch (IOException e) {
+			// if resources were not obtained successfully, return empty list
+			return lightCurveMeasurements;
+		}
+
+		// process resources
+		for (Resource resource : resources) {
+			// if resource is not referring to the specified star, skip it
+			String fileName = resource.getFilename();
+			if (fileName == null || !fileName.endsWith(rensonId + StarLightCurvesReaderImpl.fileFormat)) {
+				continue;
+			}
+
+			try {
+				// get input stream used for data reading
+				bufferedReader = new BufferedReader(new InputStreamReader(resource.getInputStream()));
+
+				String line;
+				while ((line = bufferedReader.readLine()) != null) {
+					LightCurveMeasurement measurement = processLine(line);
+					if (measurement != null) {
+						lightCurveMeasurements.add(measurement);
+					}
+				}
+
+				bufferedReader.close();
+			} catch (IOException e) {
+				// if there was error while reading the resource, skip the resource (ignore exception)
+			}
+		}
+
+		// sort measurements by time
+		lightCurveMeasurements.sort(Comparator.comparingDouble(LightCurveMeasurement::getTime));
+
+		return lightCurveMeasurements;
+	}
+
+	/**
+	 * Read stellar light curve data of the specified star from files located somewhere
+	 * in the filesystem. Exact location (path) is defined by lightCurvesDirectoryPath
+	 * property obtained from application.yml file.
+	 *
+	 * @param rensonId Renson identifier
+	 * @return list of light curve measurements sorted by time
+	 */
+	private List<LightCurveMeasurement> readStellarLightCurveFromFileSystemByRenson(String rensonId) {
 		File folder = new File(this.lightCurvesDirectoryPath);
 
 		// create filter for files referring to the specified star (Renson id)
@@ -93,34 +171,62 @@ public class StarLightCurvesReaderImpl implements StarLightCurvesReader {
 				lines = new ArrayList<>();
 			}
 
-			// proccess the file, line by line
-			for (String line : lines) {
-				String[] values = line.trim().split(LINE_VALUE_SEPARATOR);
-
-				// if unexpected number of values was obtained, skip the line
-				if (values.length != EXPECTED_NUMBER_OF_VALUES_IN_LINE) {
-					continue;
-				}
-
-				double time;
-				double value;
-
-				try {
-					// parse values from line
-					time = Double.parseDouble(values[TIME_LINE_INDEX]);
-					value = Double.parseDouble(values[VALUE_LINE_INDEX]);
-				} catch (NumberFormatException nfe) {
-					// if invalid number format was obtained, skip the line
-					continue;
-				}
-
-				lightCurvesMeasurements.add(new LightCurveMeasurement(time, value));
-			}
+			lightCurvesMeasurements.addAll(processLines(lines));
 		}
 
 		// sort measurements by time
 		lightCurvesMeasurements.sort(Comparator.comparingDouble(LightCurveMeasurement::getTime));
 
 		return lightCurvesMeasurements;
+	}
+
+	/**
+	 * Process list of lines into list of light curve measurements.
+	 *
+	 * @param lines list of lines
+	 * @return list of light curve measurements
+	 */
+	private List<LightCurveMeasurement> processLines(List<String> lines) {
+		List<LightCurveMeasurement> lightCurveMeasurements = new ArrayList<>();
+
+		// process lines
+		for (String line : lines) {
+			LightCurveMeasurement measurement = processLine(line);
+			if (measurement != null) {
+				lightCurveMeasurements.add(measurement);
+			}
+		}
+
+		return lightCurveMeasurements;
+	}
+
+	/**
+	 * Process line. Check if expected number of values was obtained from a line,
+	 * then try to parse the obtained values and create corresponding class instance.
+	 *
+	 * @param line line to process
+	 * @return light curve measurement
+	 */
+	private LightCurveMeasurement processLine(String line) {
+		String[] values = line.trim().split(LINE_VALUE_SEPARATOR);
+
+		// if unexpected number of values was obtained, skip the line (return null)
+		if (values.length != EXPECTED_NUMBER_OF_VALUES_IN_LINE) {
+			return null;
+		}
+
+		double time;
+		double value;
+
+		try {
+			// parse values from line
+			time = Double.parseDouble(values[TIME_LINE_INDEX]);
+			value = Double.parseDouble(values[VALUE_LINE_INDEX]);
+		} catch (NumberFormatException nfe) {
+			// if invalid number format was obtained, skip the line (return null);
+			return null;
+		}
+
+		return new LightCurveMeasurement(time, value);
 	}
 }

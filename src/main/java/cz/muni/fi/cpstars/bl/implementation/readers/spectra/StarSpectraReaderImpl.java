@@ -7,6 +7,8 @@ import cz.muni.fi.cpstars.bl.interfaces.readers.spectra.StarSpectraReader;
 import cz.muni.fi.cpstars.dal.entities.Star;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
@@ -42,10 +44,14 @@ public class StarSpectraReaderImpl implements StarSpectraReader {
 
 	private final StarsBlManager starsBlManager;
 
+	ResourceLoader resourceLoader;
+
 	@Autowired
 	public StarSpectraReaderImpl(
-			StarsBlManagerImpl starsBlManagerImpl) {
+			StarsBlManagerImpl starsBlManagerImpl,
+			ResourceLoader resourceLoader) {
 		this.starsBlManager = starsBlManagerImpl;
+		this.resourceLoader = resourceLoader;
 	}
 
 	@Override
@@ -79,17 +85,26 @@ public class StarSpectraReaderImpl implements StarSpectraReader {
 		List<SpectrumMeasurement> spectraMeasurements = new ArrayList<>();
 		File file;
 
-		// attempt to find resource file
+		Resource resource = resourceLoader.getResource("classpath:" + spectraDirectoryPath + rensonId + fileFormat);
 		try {
-			file = ResourceUtils.getFile("classpath:" + spectraDirectoryPath + rensonId + fileFormat);
-		} catch (FileNotFoundException e) {
-			// if file was not found, no measurements can be obtained -> return empty list
+			file = resource.getFile();
+		} catch (IOException e) {
+			System.out.println("IO exception");
 			return spectraMeasurements;
 		}
 
+//		// attempt to find resource file
+//		try {
+//			file = ResourceUtils.getFile("classpath:" + spectraDirectoryPath + rensonId + fileFormat);
+//		} catch (FileNotFoundException e) {
+//			// if file was not found, no measurements can be obtained -> return empty list
+//			return spectraMeasurements;
+//		}
+//
 		List<String> lines;
 
 		try {
+			System.out.println("PATH: " + file.toPath());
 			lines = Files.readAllLines(file.toPath());
 		} catch (IOException e) {
 			// if IO problem occurred, use empty list (no data acquired)

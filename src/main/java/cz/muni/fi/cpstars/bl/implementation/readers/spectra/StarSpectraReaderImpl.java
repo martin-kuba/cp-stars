@@ -7,14 +7,13 @@ import cz.muni.fi.cpstars.bl.interfaces.readers.spectra.StarSpectraReader;
 import cz.muni.fi.cpstars.dal.entities.Star;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -30,6 +29,8 @@ public class StarSpectraReaderImpl implements StarSpectraReader {
 
 	@Value("${paths.files.spectra}")
 	private String spectraDirectoryPath;
+
+	private static final String LIGHT_CURVES_RESOURCES_PATH = "files/spectra/";
 
 	@Value("${paths.useResources}")
 	private boolean useResources;
@@ -69,7 +70,6 @@ public class StarSpectraReaderImpl implements StarSpectraReader {
 
 	@Override
 	public List<SpectrumMeasurement> readStellarSpectraByRenson(String rensonId) {
-		System.out.println("Test");
 		return useResources
 				? readStellarSpectraFromResourcesByRenson(rensonId)
 				: readStellarSpectraFromFileSystemByRenson(rensonId);
@@ -80,42 +80,58 @@ public class StarSpectraReaderImpl implements StarSpectraReader {
 	// **   PRIVATE  METHODS   **
 	// **************************
 
+	/**
+	 * Read stellar spectrum data of the specified star from resources directory
+	 * located inside the project's structure.
+	 *
+	 * @param rensonId Renson identifier
+	 * @return list of stellar spectrum measurements
+	 */
 	private List<SpectrumMeasurement> readStellarSpectraFromResourcesByRenson(String rensonId) {
-		System.out.println("reading from resources...");
 		List<SpectrumMeasurement> spectraMeasurements = new ArrayList<>();
-		File file;
+		InputStream inputStream;
 
-		Resource resource = resourceLoader.getResource("classpath:" + spectraDirectoryPath + rensonId + fileFormat);
 		try {
-			file = resource.getFile();
+			ClassLoader CLDR = this.getClass().getClassLoader();
+
+			// try to find resource
+			inputStream = CLDR.getResourceAsStream(LIGHT_CURVES_RESOURCES_PATH + rensonId + fileFormat);
+
+			if (inputStream == null) {
+				// if stream is null, resource was not found -> return empty list
+				return spectraMeasurements;
+			}
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+			String line;
+
+			// read file line by line, process one line at a time
+			while ((line = br.readLine()) != null)
+			{
+				SpectrumMeasurement measurement = processLine(line);
+				if (measurement != null) {
+					spectraMeasurements.add(measurement);
+				}
+			}
+
+			br.close();
+			inputStream.close();
 		} catch (IOException e) {
-			System.out.println("IO exception");
 			return spectraMeasurements;
 		}
 
-//		// attempt to find resource file
-//		try {
-//			file = ResourceUtils.getFile("classpath:" + spectraDirectoryPath + rensonId + fileFormat);
-//		} catch (FileNotFoundException e) {
-//			// if file was not found, no measurements can be obtained -> return empty list
-//			return spectraMeasurements;
-//		}
-//
-		List<String> lines;
-
-		try {
-			System.out.println("PATH: " + file.toPath());
-			lines = Files.readAllLines(file.toPath());
-		} catch (IOException e) {
-			// if IO problem occurred, use empty list (no data acquired)
-			lines = new ArrayList<>();
-		}
-
-		return processLines(lines);
+		return spectraMeasurements;
 	}
 
+	/**
+	 * Read stellar spectrum data of the specified star from files located somewhere
+	 * in the filesystem. Exact location (path) is defined by spectraDirectoryPath
+	 * property obtained from application.yml file.
+	 *
+	 * @param rensonId Renson identifier
+	 * @return list of stellar spectrum measurements
+	 */
 	private List<SpectrumMeasurement> readStellarSpectraFromFileSystemByRenson(String rensonId) {
-		System.out.println("Reading from file system");
 		Path filePath = Path.of(spectraDirectoryPath + rensonId + fileFormat);
 		List<SpectrumMeasurement> spectraMeasurements = new ArrayList<>();
 
@@ -136,32 +152,52 @@ public class StarSpectraReaderImpl implements StarSpectraReader {
 		return processLines(lines);
 	}
 
+	/**
+	 * Process list of lines into list of stellar spectrum measurements.
+	 *
+	 * @param lines list of lines
+	 * @return list of stellar spectrum measurements
+	 */
 	private List<SpectrumMeasurement> processLines(List<String> lines) {
 		List<SpectrumMeasurement> spectraMeasurements = new ArrayList<>();
 
-		// proccess the file, line by line
+		// process lines
 		for (String line : lines) {
-			String[] values = line.trim().split(LINE_VALUE_SEPARATOR);
-
-			// if unexpected number of values was obtained, skip the line
-			if (values.length != EXPECTED_NUMBER_OF_VALUES_IN_LINE) {
-				continue;
+			SpectrumMeasurement measurement = processLine(line);
+			if (measurement != null) {
+				spectraMeasurements.add(measurement);
 			}
-
-			double wavelength;
-			double flux;
-
-			try {
-				wavelength = Double.parseDouble(values[WAVELENGTH_LINE_INDEX]);
-				flux = Double.parseDouble(values[FLUX_LINE_INDEX]);
-			} catch (NumberFormatException nfe) {
-				// if invalid number format was obtained, skip the line
-				continue;
-			}
-
-			spectraMeasurements.add(new SpectrumMeasurement(wavelength, flux));
 		}
 
 		return spectraMeasurements;
+	}
+
+	/**
+	 * Process line. Check if expected number of values was obtained from a line,
+	 * then try to parse the obtained values and create corresponding class instance.
+	 *
+	 * @param line line to process
+	 * @return single stellar spectrum measurement
+	 */
+	private SpectrumMeasurement processLine(String line) {
+		String[] values = line.trim().split(LINE_VALUE_SEPARATOR);
+
+		// if unexpected number of values was obtained, skip the line (return null)
+		if (values.length != EXPECTED_NUMBER_OF_VALUES_IN_LINE) {
+			return null;
+		}
+
+		double wavelength;
+		double flux;
+
+		try {
+			wavelength = Double.parseDouble(values[WAVELENGTH_LINE_INDEX]);
+			flux = Double.parseDouble(values[FLUX_LINE_INDEX]);
+		} catch (NumberFormatException nfe) {
+			// if invalid number format was obtained, skip the line (return null)
+			return null;
+		}
+
+		return new SpectrumMeasurement(wavelength, flux);
 	}
 }

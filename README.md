@@ -14,7 +14,7 @@ exists in order to provide another way to access the database.
 ## Usage
 
 In order to run the application, PostgreSQL database has to be present. 
-Copy of the database is available in files folder ([**cpstars.sql**](https://github.com/Kuliak/cp-stars/tree/master/files)).
+Copy of the database is available in the project's root directory ([**cpstars.sql**](https://github.com/Kuliak/cp-stars/blob/master/cpstars.sql)).
 
 After downloading the file, following commands can be used
 to initialize the database:
@@ -36,6 +36,11 @@ psql -U postgres -d cpstars -f ./cp-stars/files/cpstars.sql
 When the database was successfully initialized, we may proceed and run the application.
 In case different Postgres role is used for database access, it should be defined in **application.yml** file.
 
+If default postgres settings were used and you have downloaded JAR file, you may skip following part 
+and head right into [this section](#run-from-downloaded-jar-file). 
+
+#### Run from the source code
+
 After configuring all the needed properties, go to the project root directory:
 
 ```
@@ -55,4 +60,15 @@ to run the CP-Stars application:
 ```
 java -jar ~/.m2/repository/cz/muni/fi/cp-stars/0.0.1-SNAPSHOT/cp-stars-0.0.1-SNAPSHOT.jar
 ```
+
+#### Run from downloaded JAR file
+
+In case you have downloaded prepared JAR file directly, you may run the application using following
+command:
+
+```
+java -jar <PATH_TO_JAR>
+```
+
+
 

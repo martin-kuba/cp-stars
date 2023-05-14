@@ -24,6 +24,8 @@ springdoc:
     path: /api/docs
 
 paths:
+  useResources: true
+  # in case non-resource path should be used, below configuration is used instead to locate data
   files:
     spectra: files/spectra/
     lightCurves: files/light-curves

@@ -8,7 +8,10 @@ import cz.muni.fi.cpstars.dal.entities.Star;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,6 +28,9 @@ public class StarSpectraReaderImpl implements StarSpectraReader {
 
 	@Value("${paths.files.spectra}")
 	private String spectraDirectoryPath;
+
+	@Value("${paths.useResources}")
+	private boolean useResources;
 
 	private static final String fileFormat = ".txt";
 
@@ -57,6 +63,44 @@ public class StarSpectraReaderImpl implements StarSpectraReader {
 
 	@Override
 	public List<SpectrumMeasurement> readStellarSpectraByRenson(String rensonId) {
+		System.out.println("Test");
+		return useResources
+				? readStellarSpectraFromResourcesByRenson(rensonId)
+				: readStellarSpectraFromFileSystemByRenson(rensonId);
+	}
+
+
+	// **************************
+	// **   PRIVATE  METHODS   **
+	// **************************
+
+	private List<SpectrumMeasurement> readStellarSpectraFromResourcesByRenson(String rensonId) {
+		System.out.println("reading from resources...");
+		List<SpectrumMeasurement> spectraMeasurements = new ArrayList<>();
+		File file;
+
+		// attempt to find resource file
+		try {
+			file = ResourceUtils.getFile("classpath:" + spectraDirectoryPath + rensonId + fileFormat);
+		} catch (FileNotFoundException e) {
+			// if file was not found, no measurements can be obtained -> return empty list
+			return spectraMeasurements;
+		}
+
+		List<String> lines;
+
+		try {
+			lines = Files.readAllLines(file.toPath());
+		} catch (IOException e) {
+			// if IO problem occurred, use empty list (no data acquired)
+			lines = new ArrayList<>();
+		}
+
+		return processLines(lines);
+	}
+
+	private List<SpectrumMeasurement> readStellarSpectraFromFileSystemByRenson(String rensonId) {
+		System.out.println("Reading from file system");
 		Path filePath = Path.of(spectraDirectoryPath + rensonId + fileFormat);
 		List<SpectrumMeasurement> spectraMeasurements = new ArrayList<>();
 
@@ -73,6 +117,12 @@ public class StarSpectraReaderImpl implements StarSpectraReader {
 			// if IO problem occurred, use empty list (no data acquired)
 			lines = new ArrayList<>();
 		}
+
+		return processLines(lines);
+	}
+
+	private List<SpectrumMeasurement> processLines(List<String> lines) {
+		List<SpectrumMeasurement> spectraMeasurements = new ArrayList<>();
 
 		// proccess the file, line by line
 		for (String line : lines) {

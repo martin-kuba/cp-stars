@@ -1,0 +1,33 @@
+# from https://github.com/actions/upload-release-asset
+name: "release"
+on:
+  push:
+    # Run for tagged commits, the tag name should be X.Y.Z to be used as version in pom.xml
+    tags:
+      - '[1-9]*'
+jobs:
+  publish:
+    name: "Build and upload release assets"
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: "Check out code"
+        uses: actions/checkout@v3
+
+      - name: "Set up JDK"
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'zulu'
+          cache: 'maven'
+
+
+      - name: "Set version in pom.xml to $GITHUB_REF_NAME"
+        run: "mvn versions:set -DnewVersion=$GITHUB_REF_NAME ; mvn versions:commit"
+
+      - name: "Compile and package"
+        run: mvn -B clean install
+
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "target/cpstars.jar"

@@ -20,8 +20,8 @@ public interface StarRepository extends CrudRepository<Star, Long> {
             "s.renson, " +
             "s.consideredCategoryAffiliationProbabilityFlag, " +
             "s.binarySystemComponent, " +
-            "s.icrsDeclination, " +
             "s.icrsRightAscension, " +
+            "s.icrsDeclination, " +
             "s.galacticLatitude, " +
             "s.galacticLongitude";
 

@@ -2,8 +2,6 @@
 name: "release"
 on:
   push:
-    branches:
-      - master
     # Run for tagged commits, the tag name should be X.Y.Z to be used as version in pom.xml
     tags:
       - '[1-9]*'

@@ -5,6 +5,9 @@ on:
     # Run for tagged commits, the tag name should be X.Y.Z to be used as version in pom.xml
     tags:
       - '[1-9]*'
+permissions:
+  contents: write
+
 jobs:
   publish:
     name: "Build and upload release assets"

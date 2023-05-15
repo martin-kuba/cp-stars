@@ -12,9 +12,7 @@ import java.util.List;
  *
  * @author Ľuboslav Halama <lubo.halama@gmail.com>
  */
-//public interface StarRepository extends CrudRepository<Star, Long>, StarRepositoryCustom<Star, Long> {
 public interface StarRepository extends CrudRepository<Star, Long> {
-//public interface StarRepository extends CrudRepository<Star, Long>, CustomStarRepository {
 
     String STAR_BASIC_INFO_SELECT = "s.id, " +
             "s.renson, " +
@@ -22,8 +20,8 @@ public interface StarRepository extends CrudRepository<Star, Long> {
             "s.binarySystemComponent, " +
             "s.icrsRightAscension, " +
             "s.icrsDeclination, " +
-            "s.galacticLatitude, " +
-            "s.galacticLongitude";
+            "s.galacticLongitude, " +
+            "s.galacticLatitude";
 
     Star findById(long id);
 

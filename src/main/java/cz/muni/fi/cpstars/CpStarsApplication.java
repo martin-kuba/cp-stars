@@ -17,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @OpenAPIDefinition(
 		servers = {
 				@Server(
-						url = "http://{server}:${server.port}",
+						url = "https://{server}:${server.port}",
 						description = "Default Server URL",
 						variables = {
 								@ServerVariable(

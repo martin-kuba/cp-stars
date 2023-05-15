@@ -13,7 +13,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-// defaultValue = "147.251.21.135"
+// temporary domain = "147.251.21.135"
+// final domain = cp-stars.cerit-sc.cz
 @OpenAPIDefinition(
 		servers = {
 				@Server(

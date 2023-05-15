@@ -5,6 +5,7 @@ import astrosearcher.classes.simbad.SimbadData;
 import astrosearcher.classes.vizier.VizierTable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.muni.fi.cpstars.utils.StringUtils;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,10 +27,16 @@ public class ExternalDetails {
 	@JsonIgnore
 	private final String EFFECTIVE_TEMPERATURE_VALUES_REGEX = "(\\d*)\\s*(\\[\\s*[a-zA-Z]*\\s*\\])?";
 
+	@Schema(nullable = true)
 	private Double effectiveTemperature;
+
+	@Schema(nullable = true)
 	private String effectiveTemperatureUnit;
+
+	@Schema(nullable = true)
 	private Double redshift;
 
+	@Schema(nullable = true)
 	private List<VizierTable> vizierTables;
 
 	public ExternalDetails(ResponseData externalData) {

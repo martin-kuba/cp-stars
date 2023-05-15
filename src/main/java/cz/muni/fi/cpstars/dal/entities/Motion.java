@@ -1,24 +1,18 @@
 package cz.muni.fi.cpstars.dal.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import cz.muni.fi.cpstars.dal.Constraints;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.ToString;
 
 /**
  * Star motion entity class.
@@ -40,6 +34,8 @@ public class Motion {
 
     @JoinColumn(name = "star_id", referencedColumnName = "id")
     @ManyToOne
+    @NonNull
+    @NotNull
     private Star star;
 
     @JoinColumn(name = "datasource_id")
@@ -49,25 +45,31 @@ public class Motion {
     private DataSource datasource;
 
     @Column(name = "proper_motion_ra")
+    @Schema(nullable = true)
     private Double properMotionRa;
 
     @Column(name = "proper_motion_ra_error")
+    @Schema(nullable = true)
 //    @PositiveOrZero
     private Double properMotionRaError;
 
     @Column(name = "proper_motion_dec")
+    @Schema(nullable = true)
     private Double properMotionDec;
 
     @Column(name = "proper_motion_dec_error")
+    @Schema(nullable = true)
 //    @PositiveOrZero
     private Double properMotionDecError;
 
     @Column(name = "parallax")
+    @Schema(nullable = true)
 //    @Min(Constraints.MOTION_PARALLAX_MIN)
 //    @Max(Constraints.MOTION_PARALLAX_MAX)
     private Double parallax;
 
     @Column(name = "parallax_error")
+    @Schema(nullable = true)
 //    @PositiveOrZero
     private Double parallaxError;
 

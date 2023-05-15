@@ -2,6 +2,7 @@ package cz.muni.fi.cpstars.dal.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.muni.fi.cpstars.dal.Constraints;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,14 +42,17 @@ public class Star {
 
     @Column(name = "category_affiliation_probability_flag", length = Constraints.STAR_FLAG_CONSIDERED_CATEGORY_AFFILIATION_PROBABILITY_MAX_LENGTH)
     @Size(max = Constraints.STAR_FLAG_CONSIDERED_CATEGORY_AFFILIATION_PROBABILITY_MAX_LENGTH)
+    @Schema(nullable = true)
     private String consideredCategoryAffiliationProbabilityFlag;
 
     @Column(name = "id_2009_A_and_A_498_961_R", length = Constraints.STAR_ID_2009_A_AND_A_498_961_R_MAX_LENGTH)
     @Size(max = Constraints.STAR_ID_2009_A_AND_A_498_961_R_MAX_LENGTH)
+    @Schema(nullable = true)
     private String renson;
 
     @Column(name = "binary_system_component", length = Constraints.STAR_FLAG_BINARY_SYSTEM_COMPONENT_MAX_LENGTH)
     @Size(max = Constraints.STAR_FLAG_BINARY_SYSTEM_COMPONENT_MAX_LENGTH)
+    @Schema(nullable = true)
     private String binarySystemComponent;
 
     @Column(name = "icrs_ra")
@@ -81,10 +85,12 @@ public class Star {
 
     @Column(name = "alpha", length = Constraints.STAR_COORDINATE_ALPHA_MAX_LENGTH)
     @Size(max = Constraints.STAR_COORDINATE_ALPHA_MAX_LENGTH)
+    @Schema(nullable = true)
     private String alpha;
 
     @Column(name = "delta", length = Constraints.STAR_COORDINATE_DELTA_MAX_LENGTH)
     @Size(max = Constraints.STAR_COORDINATE_DELTA_MAX_LENGTH)
+    @Schema(nullable = true)
     private String delta;
 
     @OneToMany(mappedBy = "star", cascade = {CascadeType.ALL})

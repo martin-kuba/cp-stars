@@ -1,6 +1,6 @@
 package cz.muni.fi.cpstars.dal.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,12 +9,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.ToString;
 
 /**
  * Redial velocity entity class.
@@ -36,6 +34,8 @@ public class RadialVelocity {
 
     @JoinColumn(name = "star_id", referencedColumnName = "id")
     @ManyToOne
+    @NonNull
+    @NotNull
     private Star star;
 
     @JoinColumn(name = "datasource_id")
@@ -50,6 +50,7 @@ public class RadialVelocity {
     private Double radialVelocity;
 
     @Column(name = "radial_velocity_error")
-    @PositiveOrZero
+    @Schema(nullable = true)
+//    @PositiveOrZero
     private Double radialVelocityError;
 }

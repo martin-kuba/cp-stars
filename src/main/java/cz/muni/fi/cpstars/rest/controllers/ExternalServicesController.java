@@ -1,7 +1,6 @@
 package cz.muni.fi.cpstars.rest.controllers;
 
 
-import cz.muni.fi.cpstars.bl.implementation.classes.LightCurveMeasurement;
 import cz.muni.fi.cpstars.bl.implementation.AstroSearcherConnectorImpl;
 import cz.muni.fi.cpstars.bl.interfaces.AstroSearcherConnector;
 import cz.muni.fi.cpstars.dal.implementation.classes.ExternalDetails;
@@ -41,7 +40,7 @@ public class ExternalServicesController {
             responseCode = "200",
             description = "Identifiers obtained from external sources."
     )
-    @GetMapping(Paths.IDENTIFIERS + "/{name}")
+    @GetMapping(Paths.ASTROSEARCHER_IDENTIFIERS + "/{name}")
     public List<String> getIdentifiers(@PathVariable String name) {
         return astroSearcherConnector.getAliases(name);
     }

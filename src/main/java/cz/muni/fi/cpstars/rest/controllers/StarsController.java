@@ -1,6 +1,7 @@
 package cz.muni.fi.cpstars.rest.controllers;
 
 import cz.muni.fi.cpstars.bl.implementation.IdentifiersBlManagerImpl;
+import cz.muni.fi.cpstars.bl.implementation.MagnitudeAttributesBlManagerImpl;
 import cz.muni.fi.cpstars.bl.implementation.MagnitudesBlManagerImpl;
 import cz.muni.fi.cpstars.bl.implementation.MotionsBlManagerImpl;
 import cz.muni.fi.cpstars.bl.implementation.RadialVelocitiesBlManagerImpl;
@@ -11,6 +12,7 @@ import cz.muni.fi.cpstars.bl.implementation.classes.SpectrumMeasurement;
 import cz.muni.fi.cpstars.bl.implementation.readers.lightcurves.StarLightCurvesReaderImpl;
 import cz.muni.fi.cpstars.bl.implementation.readers.spectra.StarSpectraReaderImpl;
 import cz.muni.fi.cpstars.bl.interfaces.IdentifiersBlManager;
+import cz.muni.fi.cpstars.bl.interfaces.MagnitudeAttributesBlManager;
 import cz.muni.fi.cpstars.bl.interfaces.MagnitudesBlManager;
 import cz.muni.fi.cpstars.bl.interfaces.MotionsBlManager;
 import cz.muni.fi.cpstars.bl.interfaces.RadialVelocitiesBlManager;
@@ -18,6 +20,7 @@ import cz.muni.fi.cpstars.bl.interfaces.StarDatasourceAttributeBlManager;
 import cz.muni.fi.cpstars.bl.interfaces.StarsBlManager;
 import cz.muni.fi.cpstars.bl.interfaces.readers.lightcurves.StarLightCurvesReader;
 import cz.muni.fi.cpstars.bl.interfaces.readers.spectra.StarSpectraReader;
+import cz.muni.fi.cpstars.dal.entities.MagnitudeAttribute;
 import cz.muni.fi.cpstars.dal.implementation.classes.ExtendedStar;
 import cz.muni.fi.cpstars.dal.implementation.classes.StarBasicInfo;
 import cz.muni.fi.cpstars.dal.entities.Identifier;
@@ -48,6 +51,7 @@ public class StarsController {
 
     private final DataInitializer dataInitializer;
     private final IdentifiersBlManager identifiersBlManager;
+    private final MagnitudeAttributesBlManager magnitudeAttributesBlManager;
     private final MagnitudesBlManager magnitudesBlManager;
     private final MotionsBlManager motionsBlManager;
     private final RadialVelocitiesBlManager radialVelocitiesBlManager;
@@ -60,6 +64,7 @@ public class StarsController {
     public StarsController(
             DataInitializer dataInitializer,
             IdentifiersBlManagerImpl identifiersBlManagerImpl,
+            MagnitudeAttributesBlManagerImpl magnitudeAttributesBlManagerImpl,
             MagnitudesBlManagerImpl magnitudesBlManagerImpl,
             MotionsBlManagerImpl motionsBlManagerImpl,
             RadialVelocitiesBlManagerImpl radialVelocitiesBlManagerImpl,
@@ -69,6 +74,7 @@ public class StarsController {
             StarsBlManagerImpl starsBlManagerImpl) {
         this.dataInitializer = dataInitializer;
         this.identifiersBlManager = identifiersBlManagerImpl;
+        this.magnitudeAttributesBlManager = magnitudeAttributesBlManagerImpl;
         this.magnitudesBlManager = magnitudesBlManagerImpl;
         this.motionsBlManager = motionsBlManagerImpl;
         this.radialVelocitiesBlManager = radialVelocitiesBlManagerImpl;
@@ -183,6 +189,19 @@ public class StarsController {
     @GetMapping("/{starId}" + Paths.CP_STARS_DATABASE_MAGNITUDES_PARTIAL)
     public List<Magnitude> getStarMagnitudes(@PathVariable long starId) {
         return magnitudesBlManager.getAllMagnitudesForStarId(starId);
+    }
+
+    @Operation(
+            summary = "Get magnitudes attributes corresponding to specified star.",
+            description = "Response contains list of all magnitudes attributes belonging to given star."
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "List of magnitudes attributes found and returned."
+    )
+    @GetMapping("/{starId}" + Paths.CP_STARS_DATABASE_MAGNITUDES_ATTRIBUTES_PARTIAL)
+    public List<MagnitudeAttribute> getStarMagnitudeAttributes(@PathVariable long starId) {
+        return magnitudeAttributesBlManager.getAllAttributesForStarId(starId);
     }
 
     @Operation(

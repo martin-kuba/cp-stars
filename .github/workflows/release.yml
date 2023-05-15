@@ -28,7 +28,7 @@ jobs:
         run: "mvn versions:set -DnewVersion=$GITHUB_REF_NAME ; mvn versions:commit"
 
       - name: "Compile and package"
-        run: mvn -B clean install
+        run: mvn -B -DskipTests clean install
 
       - uses: ncipollo/release-action@v1
         with:

@@ -54,7 +54,7 @@ mvn clean install
 ```
 
 By default, the application should be installed into **.m2** 
-folder located in the home folder. After that, execute following command 
+folder located in the home folder. After that, execute the following command 
 to run the CP-Stars application:
 
 ```

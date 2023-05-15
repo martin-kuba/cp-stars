@@ -23,7 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 								@ServerVariable(
 										name = "server",
 										description = "Server URL address",
-										defaultValue = "147.251.21.135"
+										defaultValue = "cp-stars.cerit-sc.cz"
 								)
 						}
 				)

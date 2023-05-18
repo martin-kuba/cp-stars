@@ -11,6 +11,8 @@ spring:
     username: cpstars
     password: cpstars
     driverClassName: org.postgresql.Driver
+    hikari:
+      minimum-idle: 2
   jpa:
     properties:
       hibernate:

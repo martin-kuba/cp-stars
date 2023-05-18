@@ -1,4 +1,4 @@
-package org.astrosearcher;
+package cz.muni.fi.cpstars;
 
 import org.apache.coyote.ajp.AjpNioProtocol;
 import org.slf4j.Logger;

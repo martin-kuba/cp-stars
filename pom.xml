@@ -88,20 +88,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.springdoc</groupId>-->
-<!--			<artifactId>springdoc-openapi-ui</artifactId>-->
-<!--			<version>1.6.14</version>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.14.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			<version>2.10.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
@@ -115,7 +108,7 @@
 			<version>2.2.10</version>
 		</dependency>
 
-<!--		TODO: Remove-->
+<!--		TODO: Remove
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
@@ -126,14 +119,19 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>5.2.0</version>
 		</dependency>
+		-->
 	</dependencies>
 
 	<build>
+		<!-- name of the producer executable jar file -->
+		<finalName>cpstars</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<!-- https://docs.spring.io/spring-boot/docs/current/reference/html/deployment.html#deployment.installing -->
+					<executable>true</executable>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>

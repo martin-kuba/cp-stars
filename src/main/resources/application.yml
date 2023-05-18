@@ -8,8 +8,8 @@ spring:
     name: CP Stars
   datasource:
     url: jdbc:postgresql://localhost:5432/cpstars
-    username: postgres
-    password: postgres
+    username: cpstars
+    password: cpstars
     driverClassName: org.postgresql.Driver
   jpa:
     properties:
@@ -23,7 +23,7 @@ spring:
 
 springdoc:
   api-docs:
-    path: /api/docs
+    path: /openapi
 
 paths:
   useResources: true

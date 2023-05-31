@@ -34,6 +34,7 @@ public abstract class Paths {
 
 
     // EXPORT
+    public static final String EMPTY_VALUE_REPRESENTATIONS = "/empty-value-repr";
     public static final String EXPORT = "/export";
     public static final String FORMAT_CSV = "/csv";
     public static final String FORMAT_TXT = "/txt";

@@ -20,6 +20,7 @@ import cz.muni.fi.cpstars.dal.entities.RadialVelocity;
 import cz.muni.fi.cpstars.dal.entities.Star;
 import cz.muni.fi.cpstars.dal.entities.StarDatasourceAttribute;
 import cz.muni.fi.cpstars.rest.forms.export.ExportCsvForm;
+import cz.muni.fi.cpstars.rest.forms.export.ExportCsvFormEmptyValuesRepresentation;
 import jakarta.persistence.Column;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,19 +28,35 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.StringJoiner;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Service
 public class ExportCSVBlManagerImpl implements ExportCSVBlManager {
 
 	private final String CSV_DELIMITER = ";";
+
+	private static final String CSV_RESOURCES_PATH = "files/csv/";
+
+	private static final String CSV_FILE_NAME_REPR_SUBSTR = "_repr_";
+
+	private static final String CSV_STARS_ALL_CATEGORIES = "stars_all";
+	private static final String CSV_STARS_WITH_ATTRIBUTES = "stars_attributes";
+	private static final String CSV_STARS_WITH_IDENTIFIERS = "stars_identifiers";
+	private static final String CSV_STARS_WITH_MAGNITUDES = "stars_magnitudes";
+	private static final String CSV_STARS_WITH_MOTIONS = "stars_motions";
+	private static final String CSV_STARS_NO_CATEGORIES = "stars_none";
+	private static final String CSV_STARS_WITH_RADIAL_VELOCITIES = "stars_radial_velocities";
 
 	private final IdentifiersBlManager identifiersBlManager;
 	private final MagnitudesBlManager magnitudesBlManager;
@@ -66,6 +83,119 @@ public class ExportCSVBlManagerImpl implements ExportCSVBlManager {
 
 	@Override
 	public byte[] getStarsCsv(ExportCsvForm exportCsvForm) {
+		return getStarsCsvFromResources(exportCsvForm);
+	}
+
+	@Override
+	public List<String> getSupportedEmptyValueRepresentations() {
+		return Arrays.stream(ExportCsvFormEmptyValuesRepresentation.values())
+				.map(ExportCsvFormEmptyValuesRepresentation::getLabel)
+				.toList();
+	}
+
+	// ********************************
+	// ********************************
+	// ***                          ***
+	// ***     PRIVATE  METHODS     ***
+	// ***                          ***
+	// ********************************
+	// ********************************
+
+	/**
+	 * Get CSV file containing specific information.
+	 *
+	 * @param exportCsvForm containing export configuration
+	 * @return byte array representing exported stars in CSV format
+	 */
+	private byte[] getStarsCsvFromResources(ExportCsvForm exportCsvForm) {
+		ByteArrayOutputStream zipStream = new ByteArrayOutputStream();
+		ZipOutputStream zipOut = new ZipOutputStream(zipStream);
+
+		if (!exportCsvForm.hasValidEmptyValueRepresentation()) {
+			throw new IllegalArgumentException("Invalid empty value representation.");
+		}
+
+		String fileSuffix = exportCsvForm.getEmptyValueRepresentationFileSuffix() + ".csv";
+
+		if (exportCsvForm.shouldExportAllCategories()) {
+			addToZip(zipOut, CSV_STARS_ALL_CATEGORIES + CSV_FILE_NAME_REPR_SUBSTR + fileSuffix);
+		} else if (exportCsvForm.shouldExportNoCategories()) {
+			addToZip(zipOut, CSV_STARS_NO_CATEGORIES + CSV_FILE_NAME_REPR_SUBSTR + fileSuffix);
+		} else {
+			// if attributes should be exported, export them
+			if (exportCsvForm.isExportAttributes()) {
+				addToZip(zipOut, CSV_STARS_WITH_ATTRIBUTES + CSV_FILE_NAME_REPR_SUBSTR + fileSuffix);
+			}
+
+			// if identifiers should be exported, export them
+			if (exportCsvForm.isExportIdentifiers()) {
+				addToZip(zipOut, CSV_STARS_WITH_IDENTIFIERS + CSV_FILE_NAME_REPR_SUBSTR + fileSuffix);
+			}
+
+			// if magnitudes should be exported, export them
+			if (exportCsvForm.isExportMagnitudes()) {
+				addToZip(zipOut, CSV_STARS_WITH_MAGNITUDES + CSV_FILE_NAME_REPR_SUBSTR + fileSuffix);
+			}
+
+			// if motions (motion-related values) should be exported, export them
+			if (exportCsvForm.isExportMotions()) {
+				addToZip(zipOut, CSV_STARS_WITH_MOTIONS + CSV_FILE_NAME_REPR_SUBSTR + fileSuffix);
+			}
+
+			// if radial velocities should be exported, export them
+			if (exportCsvForm.isExportRadialVelocities()) {
+				addToZip(zipOut, CSV_STARS_WITH_RADIAL_VELOCITIES + CSV_FILE_NAME_REPR_SUBSTR + fileSuffix);
+			}
+		}
+
+		try {
+			zipOut.close();
+			zipStream.close();
+		} catch (IOException e) {
+			throw new RuntimeException("File export failed.");
+		}
+		return zipStream.toByteArray();
+	}
+
+	private void addToZip(ZipOutputStream zipOut, String fileName) {
+		InputStream inputStream;
+
+		try {
+			ClassLoader CLDR = this.getClass().getClassLoader();
+
+			// try to find resource
+			inputStream = CLDR.getResourceAsStream(CSV_RESOURCES_PATH + fileName);
+
+			if (inputStream == null) {
+				// if stream is null, resource was not found -> return
+				return;
+			}
+
+			ZipEntry zipEntry = new ZipEntry(fileName);
+			zipOut.putNextEntry(zipEntry);
+
+			byte[] buffer = new byte[4096];
+			int bytesRead;
+			while ((bytesRead = inputStream.read(buffer)) != -1) {
+				zipOut.write(buffer, 0, bytesRead);
+			}
+			zipOut.closeEntry();
+		} catch (IOException e) {
+			throw new IllegalArgumentException("File(s) could not be read.");
+		}
+	}
+
+	/**
+	 * Prepare custom CSV output by reading only specified data (stars and corresponding information).
+	 *
+	 * @param exportCsvForm containing export configuration
+	 * @return byte array representing exported stars in CSV format
+	 */
+	private byte[] prepareCustomCsv(ExportCsvForm exportCsvForm) {
+		/*
+		 * Code prepared for future use.
+		 */
+
 		List<Star> stars = starsBlManager.getStars();
 
 		// check if all properties are set correctly, if not, fix them.
@@ -312,14 +442,6 @@ public class ExportCSVBlManagerImpl implements ExportCSVBlManager {
 
 		return outputStream.toByteArray();
 	}
-
-	// ********************************
-	// ********************************
-	// ***                          ***
-	// ***     PRIVATE  METHODS     ***
-	// ***                          ***
-	// ********************************
-	// ********************************
 
 	/**
 	 * Get all column names from database that will be used for CSV export.

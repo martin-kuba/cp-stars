@@ -12,5 +12,5 @@ public interface AttributeDefinitionRepository extends CrudRepository<AttributeD
 
     AttributeDefinition findById(long id);
 
-    AttributeDefinition findByName(long name);
+    AttributeDefinition findByName(String name);
 }
